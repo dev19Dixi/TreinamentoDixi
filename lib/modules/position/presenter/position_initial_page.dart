@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:treinamento_mvvm/core/text_style.dart';
 
 class PositionInitialPage extends StatefulWidget {
   const PositionInitialPage({super.key});
@@ -10,7 +11,6 @@ class PositionInitialPage extends StatefulWidget {
 class _PositionInitialPageState extends State<PositionInitialPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -19,30 +19,70 @@ class _PositionInitialPageState extends State<PositionInitialPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Página inicial"),
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.chevron_right))
+        ],
       ),
+      floatingActionButton:
+          FloatingActionButton(onPressed: () => setState(() {})),
       body: Column(
         children: [
-          Container(
-              height: 200,
-              color: Colors.red,
-              child: const Row(
-                children: [
-                  Text("Dados da página inicial VERMELHOR"),
-                ],
-              )),
-          const SizedBox(
-            height: 15,
+          Text(
+            "FUNÇÕES x CLASSES",
+            style: Style.defaultStyle.copyWith(fontSize: 22),
           ),
-          Container(
-              height: 200,
-              color: Colors.green,
-              child: const Row(
-                children: [
-                  Text("Dados da página inicial VERDE"),
-                ],
-              )),
+          const SizedBox(height: 15),
+          _widgetRed("VERMELHO"),
+          const SizedBox(height: 15),
+          const WidgetGreen(
+            title: "VERDE",
+          )
         ],
       ),
     );
+  }
+
+  Container _widgetRed(String title) {
+    print("object red");
+    return Container(
+        height: 200,
+        color: Colors.red,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Dados da página inicial $title",
+              style: Style.whiteStyle,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ));
+  }
+}
+
+class WidgetGreen extends StatelessWidget {
+  const WidgetGreen({
+    super.key,
+    required this.title,
+  });
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    print("object Green");
+    return Container(
+        height: 200,
+        color: Colors.green,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Dados da página inicial VERDE",
+              style: Style.whiteStyle,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ));
   }
 }

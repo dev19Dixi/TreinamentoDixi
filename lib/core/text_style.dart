@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:treinamento_mvvm/core/app_color.dart';
 
 abstract class Style {
   static TextStyle get textStyle {
-    return GoogleFonts.dmSans();
+    return const TextStyle(fontFamily: 'RobotoSlab');
   }
 
   static TextStyle defaultStyle = textStyle.copyWith(
