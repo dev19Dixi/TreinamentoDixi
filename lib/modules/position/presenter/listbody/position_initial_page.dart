@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:treinamento_mvvm/core/text_style.dart';
 
+import 'list_positions_page.dart';
+
 class PositionInitialPage extends StatefulWidget {
   const PositionInitialPage({super.key});
 
@@ -20,7 +22,15 @@ class _PositionInitialPageState extends State<PositionInitialPage> {
       appBar: AppBar(
         title: const Text("Página inicial"),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.chevron_right))
+          IconButton(
+              onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) =>
+                          const ListPositionPage(),
+                    ),
+                  ),
+              icon: const Icon(Icons.chevron_right))
         ],
       ),
       floatingActionButton:
@@ -32,8 +42,11 @@ class _PositionInitialPageState extends State<PositionInitialPage> {
             style: Style.defaultStyle.copyWith(fontSize: 22),
           ),
           const SizedBox(height: 15),
+
+          // FUNÇÕES --------------------------------
           _widgetRed("VERMELHO"),
           const SizedBox(height: 15),
+          // CLASSES --------------------------------
           const WidgetGreen(
             title: "VERDE",
           )
@@ -43,7 +56,7 @@ class _PositionInitialPageState extends State<PositionInitialPage> {
   }
 
   Container _widgetRed(String title) {
-    print("object red");
+    print("object Red");
     return Container(
         height: 200,
         color: Colors.red,

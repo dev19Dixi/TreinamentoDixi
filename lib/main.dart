@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'core/app_color.dart';
+import 'modules/position/data/services/position_api_service.dart';
+import 'modules/position/presenter/controller/get_list_position_provider.dart';
 import 'modules/position/presenter/listbody/position_initial_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<GetListPositionProvider>.value(
+        value: GetListPositionProvider(PositionApiService()),
+      ),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,7 +26,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo MVVM',
       theme: ThemeData(
-        
         colorScheme: ColorScheme.fromSeed(seedColor: AppColor.kPrimary),
         useMaterial3: true,
       ),

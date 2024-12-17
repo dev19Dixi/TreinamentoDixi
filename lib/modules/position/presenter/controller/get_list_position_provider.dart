@@ -10,7 +10,6 @@ class GetListPositionProvider extends ChangeNotifier {
 
   List<PositionModel> _listPosition = [];
   bool _isLoading = false;
-  bool _isEmpty = false;
   String? _error;
 
   int totalOfPages = 0;
@@ -23,31 +22,25 @@ class GetListPositionProvider extends ChangeNotifier {
     return newList;
   }
 
-  bool get isEmpty => _isEmpty;
-
   bool get isLoading => _isLoading;
   String? get error => _error;
 
-  // Fetch data from API
-  Future<void> getListPosition() async {
+  Future<void> getListPosition(bool withError) async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      var dataResponse = await service.getAllPositions();
+      var dataResponse = await service.getAllPositions(withError);
 
       if (dataResponse != null) {
-        if (dataResponse.isNotEmpty) {
+          _error = null;
           _listPosition = dataResponse;
-          _isEmpty = _listPosition.isEmpty;
-        }
       }
 
       if (dataResponse == null || dataResponse.isEmpty) {
-        throw ("Some error happened");
+        _error = "Some error happened";
       }
     } catch (e) {
-      _isEmpty = false;
       _error = 'Um erro ocorreu ao requisitar o cargo';
     } finally {
       _isLoading = false;
