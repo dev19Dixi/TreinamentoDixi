@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:treinamento_mvvm/modules/position/presenter/controller/get_position_provider.dart';
 
 import 'core/app_color.dart';
 import 'modules/position/data/services/position_api_service.dart';
@@ -11,6 +12,9 @@ void main() {
     providers: [
       ChangeNotifierProvider<GetListPositionProvider>.value(
         value: GetListPositionProvider(PositionApiService()),
+      ),
+      ChangeNotifierProvider<GetPositionProvider>.value(
+        value: GetPositionProvider(PositionApiService()),
       ),
     ],
     child: const MyApp(),

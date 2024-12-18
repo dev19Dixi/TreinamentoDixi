@@ -7,6 +7,15 @@ class PositionApiService implements IPositionService {
   static const String _endpoint = "";
 
   @override
+  Future<List<PositionModel>?> getAllPositions(bool withError) async {
+    await Future.delayed(const Duration(seconds: 2));
+    if (withError) {
+      return [];
+    }
+    return mockPositions;
+  }
+
+  @override
   Future<String> createPosition(PositionModel positionModel) {
     throw UnimplementedError();
   }
@@ -17,17 +26,10 @@ class PositionApiService implements IPositionService {
   }
 
   @override
-  Future<List<PositionModel>?> getAllPositions(bool withError) async {
+  Future<PositionModel?> getPosition(int id) async {
     await Future.delayed(const Duration(seconds: 2));
-    if (withError) {
-      return [];
-    }
-    return mockPositions;
-  }
 
-  @override
-  Future<PositionModel?> getPosition(String id) {
-    throw UnimplementedError();
+    return mockPositions.firstWhere((element) => element.id == id);
   }
 
   @override

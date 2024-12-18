@@ -1,40 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../controller/get_list_position_provider.dart';
+import '../../../../core/text_style.dart';
+import '../controller/get_position_provider.dart';
 
-class PositionDetailedPage extends StatelessWidget {
-  const PositionDetailedPage({super.key});
+class PositionDetailedPage extends StatefulWidget {
+  const PositionDetailedPage({super.key, required this.idPosition});
+
+  final int idPosition;
+
+  @override
+  State<PositionDetailedPage> createState() => _PositionDetailedPageState();
+}
+
+class _PositionDetailedPageState extends State<PositionDetailedPage> {
+  late GetPositionProvider getPositionProvider;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getPositionProvider =
+          Provider.of<GetPositionProvider>(context, listen: false);
+      getPositionProvider.getPosition(widget.idPosition);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Página Dependencie Injection"),
+        title: const Text("Página de detalhes de Cargo"),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        context.read<GetListPositionProvider>().getListPosition(true);
-      }),
-      body: Consumer<GetListPositionProvider>(
-        builder: (_, provider, child) {
-          var listPosition = provider.listPosition;
-          return SingleChildScrollView(
-            child: Column(
+      body: Consumer<GetPositionProvider>(builder: (_, getProvider, child) {
+        if (getProvider.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (getProvider.error != null) {
+          return Text(
+            getProvider.error!,
+            style: Style.darkStyle.copyWith(fontSize: 20),
+          );
+        }
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: listPosition.length,
-                    itemBuilder: (_, index) => ListTile(
-                          onTap: () {},
-                          title: Text(
-                              "${listPosition[index].name} | ${listPosition[index].email}"),
-                        ))
+                Text("Name: ${getProvider.position.name}"),
+                Text("Email: ${getProvider.position.email}"),
+                Text("desc: ${getProvider.position.description}"),
+                Text("Active: ${getProvider.position.isActive}"),
+                Text("Name: ${getProvider.position.name}"),
               ],
             ),
-          );
-        },
-      ),
+          ],
+        );
+      }),
     );
   }
 }

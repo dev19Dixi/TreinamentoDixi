@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:treinamento_mvvm/core/text_style.dart';
 import 'package:treinamento_mvvm/modules/position/presenter/controller/get_list_position_provider.dart';
 
-import 'position_detailed_page.dart';
+import 'offline_list_position_page.dart';
 
 class ListPositionPage extends StatefulWidget {
   const ListPositionPage({super.key});
@@ -71,7 +71,7 @@ class SuccessGetListPositionWidget extends StatelessWidget {
                           context,
                           MaterialPageRoute<void>(
                             builder: (BuildContext context) =>
-                                const PositionDetailedPage(),
+                                const OfflineListPositionPage(),
                           ),
                         );
                       },

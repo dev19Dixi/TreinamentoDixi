@@ -5,5 +5,5 @@ abstract class IPositionService {
   Future<String> deletePosition(String id);
   Future<String> updatePosition(PositionModel positionModel);
   Future<String> createPosition(PositionModel positionModel);
-  Future<PositionModel?> getPosition(String id);
+  Future<PositionModel?> getPosition(int id);
 }

@@ -33,8 +33,10 @@ class _PositionInitialPageState extends State<PositionInitialPage> {
               icon: const Icon(Icons.chevron_right))
         ],
       ),
-      floatingActionButton:
-          FloatingActionButton(onPressed: () => setState(() {})),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => setState(() {}),
+        child: const Icon(Icons.play_arrow),
+      ),
       body: Column(
         children: [
           Text(
