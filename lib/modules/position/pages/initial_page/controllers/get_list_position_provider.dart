@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../data/model/positition_model.dart';
-import '../../data/services/abstract_position_service.dart';
+import '../../../../../models/positition_model.dart';
+import '../../../services/abstract_position_service.dart';
 
 class GetListPositionProvider extends ChangeNotifier {
   IPositionService service;

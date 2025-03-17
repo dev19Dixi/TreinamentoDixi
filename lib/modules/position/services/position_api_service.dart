@@ -1,9 +1,10 @@
-import 'package:treinamento_mvvm/modules/position/data/model/positition_model.dart';
+import 'package:flutter/material.dart';
+import 'package:treinamento_mvvm/models/positition_model.dart';
 
-import '../../../db/position_model_mock.dart';
+import '../../db/position_model_mock.dart';
 import 'abstract_position_service.dart';
 
-class PositionApiService implements IPositionService {
+class PositionApiService extends ChangeNotifier implements IPositionService {
   static const String _endpoint = "";
 
   @override

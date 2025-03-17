@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:treinamento_mvvm/core/app_color.dart';
+
+import 'app_color.dart';
 
 abstract class Style {
   static TextStyle get textStyle {

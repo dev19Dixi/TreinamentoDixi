@@ -1,20 +1,27 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:treinamento_mvvm/modules/position/presenter/controller/get_position_provider.dart';
+import 'package:treinamento_mvvm/modules/position/pages/initial_page/controllers/get_position_provider.dart';
 
-import 'core/app_color.dart';
-import 'modules/position/data/services/position_api_service.dart';
-import 'modules/position/presenter/controller/get_list_position_provider.dart';
-import 'modules/position/presenter/listbody/position_initial_page.dart';
+import 'core/style/app_color.dart';
+import 'modules/position/services/position_api_service.dart';
+import 'modules/position/pages/initial_page/controllers/get_list_position_provider.dart';
 
 void main() {
-  runApp(MultiProvider(
+  runApp(
+    MultiProvider(
     providers: [
-      ChangeNotifierProvider<GetListPositionProvider>.value(
-        value: GetListPositionProvider(PositionApiService()),
+        ChangeNotifierProvider<PositionApiService>(
+        create: (context)=> PositionApiService(),
       ),
-      ChangeNotifierProvider<GetPositionProvider>.value(
-        value: GetPositionProvider(PositionApiService()),
+      ChangeNotifierProvider(
+        create: (context)=> GetListPositionProvider(context.read<PositionApiService>()),
+      ),
+      ChangeNotifierProvider<GetListPositionProvider>(
+        create: (context)=> GetListPositionProvider(context.read<PositionApiService>()),
+      ),
+      ChangeNotifierProvider<GetPositionProvider>(
+        create: (context)=> GetPositionProvider(context.read<PositionApiService>()),
       ),
     ],
     child: const MyApp(),
@@ -33,7 +40,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColor.kPrimary),
         useMaterial3: true,
       ),
-      home: const PositionInitialPage(),
+      home: Container(),
     );
   }
 }
