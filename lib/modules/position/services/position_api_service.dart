@@ -9,7 +9,7 @@ class PositionApiService extends ChangeNotifier implements IPositionService {
 
   @override
   Future<List<PositionModel>?> getAllPositions(bool withError) async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     if (withError) {
       return [];
     }
