@@ -1,31 +1,10 @@
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:treinamento_mvvm/modules/position/pages/initial_page/controllers/get_position_provider.dart';
 
 import 'core/style/app_color.dart';
-import 'modules/position/services/position_api_service.dart';
-import 'modules/position/pages/initial_page/controllers/get_list_position_provider.dart';
+import 'shared/navigation/navigation_widget.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-    providers: [
-        ChangeNotifierProvider<PositionApiService>(
-        create: (context)=> PositionApiService(),
-      ),
-      ChangeNotifierProvider(
-        create: (context)=> GetListPositionProvider(context.read<PositionApiService>()),
-      ),
-      ChangeNotifierProvider<GetListPositionProvider>(
-        create: (context)=> GetListPositionProvider(context.read<PositionApiService>()),
-      ),
-      ChangeNotifierProvider<GetPositionProvider>(
-        create: (context)=> GetPositionProvider(context.read<PositionApiService>()),
-      ),
-    ],
-    child: const MyApp(),
-  ));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -40,7 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColor.kPrimary),
         useMaterial3: true,
       ),
-      home: Container(),
+      home: const LeftBarNavigator(),
     );
   }
 }
