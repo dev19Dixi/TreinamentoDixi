@@ -1,39 +1,46 @@
 
-Proposta de recomendação de Arquitetura DIXI 
-
-- /Core: -> Responsável por gerencias arquivos que vao ser usados durante todo o projeto
-    - /Failure -> Responsável por determinar as falhas e gerenciá-las
-    - /Request -> Responsável por intermediar e adequar dados entre as camadas Http(lib) e a Sevice
-    - /Navigation -> Responsável por iniciar e gerenciar a navegação do sistema
-    - /Style -> Reponsável por estilização como a regrar as cores e estilos de texto padão do sistema
-    - /Utils -> Responsável por juntar funções comuns do nosso sistema, como de Data e Hora
-    - /Logs -> Responsável por realizar Prints do sistema de maneira intuitiva
-- Obs: Em "/Core" não é recomendado Widgets comuns ao sistema
-- Obs2: Em "/Core" mais pastas podem ser adicionadas conforme a necessidade gerada, como webWorkers, cálculos pesados, entre outras demandas
-
-- /Models: -> Responsável por gerenciar classes Models do nosso sistema
-           -> Responsável por realizar fromJson, ToJson, FromMap, ToMap para funções de integração de dados da api em objeto
-           -> Recomendação: Utilize sufixo '_model.dart' em arquivos e "Model" em classes
-           -> Recomendação: Extensão VScode "Dart Data Class Generator" para gerar funções de integração (obs: ela é incompleta, para List<Object> ela pode gerar List<int>)
-
-- /Shared: -> Responsável por gerenciar Widgets comunns ao nosso sistema
-           -> Responsável por conter botões, menus, Containers, cabeçalhos, padrões de páginas entre outros Widgets
-           -> Nessa camada, vale uma conversa entre os interessados para determinar melhores maneiras de organização de pastas/arquivos
+# Proposta de recomendação de Arquitetura DIXI 
 
 
+## /Core
 
-- /Modules: -> Responsável por Gerenciar os módulos do sistema, Ex: Positon, Home, PolicyExtra
-            -> Responsável por incluir cada seção que o cliente quiser incluir
-    -/Module: -> Responsável por incluir controllers, widgets desse módulo
-        - /Controllers -> Responsável por incluir todos controladores/providers do módulo
-        - /Pages -> Responsável por incluir todas as páginas que vao aparecer no mmódulo
-            -/Controllers -> Responsável por incluir todos controladores/providers EXCLUSIVOS da página
-            -/Widgets -> Responsável por incluir todas os Widges que vao aparecer na página
-            - page.dart -> Responsável por gerenciar e unificar controladores e widgets
-        - /Service -> Responsável por incluir todos os services do módulo
-        - module.dart -> Responsável por gerenciar todas depedencias do módulo
+* Responsável por gerenciar arquivos utilizados em todo o projeto.
+* **`/Failure`:** Gerencia falhas e erros.
+* **`/Request`:** Intermedia e adapta dados entre as camadas Http (lib) e Service.
+* **`/Navigation`:** Inicia e gerencia a navegação do sistema.
+* **`/Style`:** Define a estilização padrão (cores, estilos de texto, etc.).
+* **`/Utils`:** Agrupa funções comuns (Data, Hora, etc.).
+* **`/Logs`:** Facilita a impressão de logs do sistema.
+* **Obs:** Não incluir Widgets comuns do sistema em `/Core`.
+* **Obs2:** Outras pastas podem ser adicionadas conforme necessário (webWorkers, cálculos pesados, etc.).
 
-Visualização .MD
+## /Models
+
+* Gerencia classes Model do sistema.
+* Realiza conversões `fromJson`, `toJson`, `fromMap`, `toMap` para integração de dados da API em objetos.
+* **Recomendação:** Use o sufixo `_model.dart` em arquivos e "Model" em classes.
+* **Recomendação:** Use a extensão "Dart Data Class Generator" do VS Code para gerar funções de integração (atenção: pode gerar `List<int>` em vez de `List<Object>`).
+
+## /Shared
+
+* Gerencia Widgets comuns do sistema.
+* Contém botões, menus, Containers, cabeçalhos, padrões de páginas, etc.
+* **Recomendação:** Definir a organização de pastas/arquivos em conjunto com a equipe.
+
+## /Modules
+
+* Gerencia módulos do sistema (Ex: Position, Home, PolicyExtra).
+* Cada módulo representa uma seção do sistema.
+* **`/Module`:** Contém os componentes de um módulo.
+    * **`/Controllers`:** Controladores/Providers do módulo.
+    * **`/Pages`:** Páginas do módulo.
+        * **`/Controllers`:** Controladores/Providers exclusivos da página.
+        * **`/Widgets`:** Widgets da página.
+        * `page.dart`: Gerencia e unifica controladores e widgets da página.
+    * **`/Services`:** Services do módulo.
+    * `module.dart`: Gerencia as dependências do módulo.
+
+### Visualização .MD
 * **`position_module` (Root Directory):** This is the main directory for the module.
 * **`/controllers`:** This directory contains controller files, including:
     * `navigation_controller.dart`: Likely handles navigation logic within the module.
@@ -57,7 +64,7 @@ Visualização .MD
 
 
 
-Visualização VsCode
+### Visualização no VsCode
 Example strucutre with "Position Module":
         /position_module
         ├── /controllers
@@ -82,7 +89,7 @@ Example strucutre with "Position Module":
 
 Possíveis dúvidas: 
 
-# Controller x Provider
+### Sufixos Controller x Provider
 - Para fins de controle de dados, o controlador pode ser sufixo "Controller" e sufixo "Provider"
 - 1. Para uso de controladores locais, usa-se "Controller" ex: "filtro_employee_controller.dart"
     - Esse exemplo seria para aplicação de filtro em uma propria página a qual nao precisaria requisição ao backend
