@@ -33,7 +33,31 @@ Proposta de recomendação de Arquitetura DIXI
         - /Service -> Responsável por incluir todos os services do módulo
         - module.dart -> Responsável por gerenciar todas depedencias do módulo
 
+Visualização .MD
+* **`position_module` (Root Directory):** This is the main directory for the module.
+* **`/controllers`:** This directory contains controller files, including:
+    * `navigation_controller.dart`: Likely handles navigation logic within the module.
+    * `token_provider.dart`: Probably manages authentication tokens or related data.
+* **`/pages`:** This directory holds the module's pages.
+    * **`/page_position_one`:** A subdirectory representing a specific page related to positions.
+        * **`/controllers` (within `page_position_one`):** Controllers specific to `page_position_one`.
+            * `get_list_provider.dart`: Fetches and provides data for a list of positions.
+            * `delete_provider.dart`: Handles deletion operations related to positions.
+            * `filter_controller.dart`: Manages filtering of position data.
+            * `employee_controller.dart`: Manages employee-related logic within the context of positions.
+        * **`/widgets` (within `page_position_one`):** Reusable UI components for `page_position_one`.
+            * `title_widget.dart`: A widget for displaying a title.
+            * `filter_widget.dart`: A widget for filtering position data.
+            * `button_widget.dart`: A widget for creating buttons.
+        * `page_position_one.dart`: The main file defining the `page_position_one` screen.
+* **`/services`:** This directory contains service files that provide data or perform specific tasks.
+    * `position_service.dart`: Likely handles location or position-related data.
+    * `position_employee_service.dart`: Possibly provides employee position data or performs related logic.
+* **`position_module.dart`:** The main entry point for the `position_module`.
 
+
+
+Visualização VsCode
 Example strucutre with "Position Module":
         /position_module
         ├── /controllers
