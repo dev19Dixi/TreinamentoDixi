@@ -1,99 +1,153 @@
 
-# Proposta de recomendação de Arquitetura DIXI 
+# 📘 Proposta de Organização de Arquitetura - DIXI
+
+Esta documentação define a estrutura sugerida para projetos Flutter utilizando uma arquitetura modular e escalável. O objetivo é promover padronização, legibilidade e facilidade de manutenção.
+
+---
+
+## 📂 Estrutura Principal
+
+```
+/core        → Recursos centrais e utilitários do sistema.
+/models      → Modelos de dados do sistema.
+/shared      → Widgets reutilizáveis e componentes visuais globais.
+/modules     → Módulos independentes com suas páginas, lógicas e serviços.
+```
+
+---
+
+## 🔹 `/core`
+
+Contém recursos fundamentais usados globalmente no projeto. **Não deve conter Widgets**.
+
+### Subpastas recomendadas:
+- `/failure`: Gerencia falhas e exceções comuns.
+- `/request`: Adapta dados entre a camada HTTP e os serviços.
+- `/navigation`: Inicia e controla a navegação entre módulos.
+- `/style`: Define temas, cores e estilos padrão.
+- `/utils`: Funções utilitárias como manipulação de data/hora, conversões, etc.
+- `/logs`: Utilitários para debug e rastreamento de logs.
+
+📌 **Observações**:
+- Não incluir Widgets aqui.
+- Outras pastas podem ser adicionadas conforme necessário (ex: `web_workers`, `heavy_calculations`, etc.).
+
+---
+
+## 🔹 `/models`
+
+Contém as classes responsáveis por representar dados da aplicação.
+
+### Responsabilidades:
+- Conversão de dados (API ↔ Objetos).
+- Métodos recomendados: `fromJson`, `toJson`, `fromMap`, `toMap`.
+
+### Convenções:
+- Nome do arquivo: `nome_model.dart`.
+- Nome da classe: `NomeModel`.
+
+📌 **Dica**: Utilize a extensão [Dart Data Class Generator](https://marketplace.visualstudio.com/items?itemName=Kite.flutter-data-class-generator) para gerar os métodos automaticamente. Atenção: pode gerar `List<int>` ao invés de `List<Object>` em alguns casos.
+
+---
+
+## 🔹 `/shared`
+
+Contém **widgets reutilizáveis** entre módulos/páginas.
+
+### Exemplos:
+- Botões padrão.
+- Menus de navegação.
+- Containers customizados.
+- Cabeçalhos reutilizáveis.
+- Layouts base de páginas.
+
+📌 **Sugestão**: Defina em equipe a estrutura de pastas e nomes dentro de `/shared`.
+
+---
+
+## 🔹 `/modules`
+
+Cada módulo representa uma **área funcional** da aplicação (ex: `home`, `position`, `policy_extra`).
+
+### Estrutura interna sugerida:
+```
+/module_name
+├── /controllers       → Providers ou controllers do módulo.
+├── /pages             → Páginas e subdiretórios com estrutura por página.
+│   └── /page_name
+│       ├── /controllers → Providers/controllers locais da página.
+│       ├── /widgets     → Componentes visuais da página.
+│       └── page_name.dart
+├── /services          → Serviços responsáveis por lógica e comunicação com backend.
+└── module_name.dart   → Ponto de entrada do módulo (injeção de dependências).
+```
+
+---
+
+## 📑 Exemplo de Módulo: `position_module`
+
+```
+position_module/
+├── controllers/
+│   ├── navigation_controller.dart
+│   └── token_provider.dart
+├── pages/
+│   └── page_position_one/
+│       ├── controllers/
+│       │   ├── get_list_provider.dart
+│       │   ├── delete_provider.dart
+│       │   ├── filter_controller.dart
+│       │   └── employee_controller.dart
+│       ├── widgets/
+│       │   ├── title_widget.dart
+│       │   ├── filter_widget.dart
+│       │   └── button_widget.dart
+│       └── page_position_one.dart
+├── services/
+│   ├── position_service.dart
+│   └── position_employee_service.dart
+└── position_module.dart
+```
+
+---
+
+## 🤔 Possíveis Dúvidas
+
+### Sufixos: `Controller` vs `Provider`
+
+| Termo       | Quando usar                                 | Exemplo                                |
+|-------------|---------------------------------------------|----------------------------------------|
+| `Controller`| Controle local, sem chamadas à API          | `filter_employee_controller.dart`      |
+| `Provider`  | Controle com comunicação com backend/API     | `get_list_employee_provider.dart`      |
+
+---
+
+## 🛠 Ferramentas Recomendadas
+
+- ✅ **Dart Data Class Generator**  
+  Gera automaticamente `fromJson`, `toJson`, `copyWith`, etc.
+
+- ✅ **Pubspec Assist**  
+  Facilita adição de dependências ao `pubspec.yaml`.
+
+- ✅ **Flutter Tree**  
+  Visualiza a hierarquia de widgets no projeto.
+
+---
+
+## 📌 Convenções Gerais
+
+- ✅ Utilizar **snake_case** para nomes de arquivos e pastas.
+- ✅ Usar sufixos `_model.dart`, `_controller.dart`, `_provider.dart`, `_widget.dart`.
+- ✅ Evitar lógica de negócio dentro de widgets ou pages.
+- ✅ Manter widgets reutilizáveis fora de módulos, em `/shared`.
+
+---
+
+Se houver necessidade de adicionar outros tipos de estruturas (como testes, temas, middlewares), é recomendado seguir a mesma lógica modular.
 
 
-## /Core
+Autoria: Renan Volpe
+--
+Revisão/Formatação: Luiz Coelho
 
-* Responsável por gerenciar arquivos utilizados em todo o projeto.
-* **`/Failure`:** Gerencia falhas e erros.
-* **`/Request`:** Intermedia e adapta dados entre as camadas Http (lib) e Service.
-* **`/Navigation`:** Inicia e gerencia a navegação do sistema.
-* **`/Style`:** Define a estilização padrão (cores, estilos de texto, etc.).
-* **`/Utils`:** Agrupa funções comuns (Data, Hora, etc.).
-* **`/Logs`:** Facilita a impressão de logs do sistema.
-* **Obs:** Não incluir Widgets comuns do sistema em `/Core`.
-* **Obs2:** Outras pastas podem ser adicionadas conforme necessário (webWorkers, cálculos pesados, etc.).
-
-## /Models
-
-* Gerencia classes Model do sistema.
-* Realiza conversões `fromJson`, `toJson`, `fromMap`, `toMap` para integração de dados da API em objetos.
-* **Recomendação:** Use o sufixo `_model.dart` em arquivos e "Model" em classes.
-* **Recomendação:** Use a extensão "Dart Data Class Generator" do VS Code para gerar funções de integração (atenção: pode gerar `List<int>` em vez de `List<Object>`).
-
-## /Shared
-
-* Gerencia Widgets comuns do sistema.
-* Contém botões, menus, Containers, cabeçalhos, padrões de páginas, etc.
-* **Recomendação:** Definir a organização de pastas/arquivos em conjunto com a equipe.
-
-## /Modules
-
-* Gerencia módulos do sistema (Ex: Position, Home, PolicyExtra).
-* Cada módulo representa uma seção do sistema.
-* **`/Module`:** Contém os componentes de um módulo.
-    * **`/Controllers`:** Controladores/Providers do módulo.
-    * **`/Pages`:** Páginas do módulo.
-        * **`/Controllers`:** Controladores/Providers exclusivos da página.
-        * **`/Widgets`:** Widgets da página.
-        * `page.dart`: Gerencia e unifica controladores e widgets da página.
-    * **`/Services`:** Services do módulo.
-    * `module.dart`: Gerencia as dependências do módulo.
-
-### Visualização .MD
-* **`position_module` (Root Directory):** This is the main directory for the module.
-* **`/controllers`:** This directory contains controller files, including:
-    * `navigation_controller.dart`: Likely handles navigation logic within the module.
-    * `token_provider.dart`: Probably manages authentication tokens or related data.
-* **`/pages`:** This directory holds the module's pages.
-    * **`/page_position_one`:** A subdirectory representing a specific page related to positions.
-        * **`/controllers` (within `page_position_one`):** Controllers specific to `page_position_one`.
-            * `get_list_provider.dart`: Fetches and provides data for a list of positions.
-            * `delete_provider.dart`: Handles deletion operations related to positions.
-            * `filter_controller.dart`: Manages filtering of position data.
-            * `employee_controller.dart`: Manages employee-related logic within the context of positions.
-        * **`/widgets` (within `page_position_one`):** Reusable UI components for `page_position_one`.
-            * `title_widget.dart`: A widget for displaying a title.
-            * `filter_widget.dart`: A widget for filtering position data.
-            * `button_widget.dart`: A widget for creating buttons.
-        * `page_position_one.dart`: The main file defining the `page_position_one` screen.
-* **`/services`:** This directory contains service files that provide data or perform specific tasks.
-    * `position_service.dart`: Likely handles location or position-related data.
-    * `position_employee_service.dart`: Possibly provides employee position data or performs related logic.
-* **`position_module.dart`:** The main entry point for the `position_module`.
-
-
-
-### Visualização no VsCode
-Example strucutre with "Position Module":
-        /position_module
-        ├── /controllers
-        │   ├── navigation_controller.dart
-        │   └── token_provider.dart
-        ├── /pages
-        │   └── /page_position_one
-        │       ├── /controllers
-        │       │   ├── get_list_provider.dart
-        │       │   ├── delete_provider.dart
-        │       │   ├── filter_controller.dart
-        │       │   └── employee_controller.dart
-        │       ├── /widgets
-        │       │   ├── title_widget.dart
-        |       |   ├── filter_widget.dart
-        │       │   └── button_widget.dart
-        │       └── page_position_one.dart
-        ├── /services
-        │   ├── position_service.dart
-        │   └── position_employee_service.dart
-        └── position_module.dart
-
-Possíveis dúvidas: 
-
-### Sufixos Controller x Provider
-- Para fins de controle de dados, o controlador pode ser sufixo "Controller" e sufixo "Provider"
-- 1. Para uso de controladores locais, usa-se "Controller" ex: "filtro_employee_controller.dart"
-    - Esse exemplo seria para aplicação de filtro em uma propria página a qual nao precisaria requisição ao backend
-- 2. Para uso de controladores de API, usa-se "Provider" ex: "get_list_employee_provider.dart"
-    - Esse exemplo seria para pegar os funcionários vindo da API
-
-by: Renan Volpe
