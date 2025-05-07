@@ -1,7 +1,6 @@
 import 'package:treinamento_mvvm/core/failures/failures.dart';
 
 class ErrorHandler {
-
   ///Check error HTTP
   ///
   ///if yes, throw Some Exception from StatusCode

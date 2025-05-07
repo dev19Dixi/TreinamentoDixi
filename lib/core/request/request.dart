@@ -9,9 +9,10 @@ import 'config_headers.dart';
 enum RequestsType { get, post, put, delete, patch }
 
 class RequestApiService {
-  Future<Map<String, dynamic>?> request(RequestsType requestsType, Uri uri,{String token = '', Object? body, String entity = ''}) async {
+  ///Return a [String] or a [IDixiFailure]
+  Future<Map<String, dynamic>?> request(RequestsType requestsType, Uri uri, {String token = '', Object? body, String entity = ''}) async {
     try {
-      final response = await requestType(requestsType, uri, token, body, entity);
+      final response = await _requestType(requestsType, uri, token, body, entity);
       ErrorHandler.checkError(response.statusCode);
       var jsonMap = json.decode(utf8.decode(response.bodyBytes).replaceAll(":null", ":\"\""));
       return jsonMap;
@@ -22,7 +23,7 @@ class RequestApiService {
     }
   }
 
-  Future<http.Response> requestType(RequestsType requestsType, Uri uri, String token, Object? body, String entity) async {
+  Future<http.Response> _requestType(RequestsType requestsType, Uri uri, String token, Object? body, String entity) async {
     switch (requestsType) {
       case RequestsType.get:
         return await http.get(uri, headers: ConfigHeaders.getHeaderToken(token, entity));
