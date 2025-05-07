@@ -13,7 +13,7 @@ class DetailPage extends StatelessWidget {
         const Text("detail Page"),
         TextButton(
             onPressed: () {
-              context.read<NavigationPositionController>().goToInitialPage();
+              context.read<NavigationPositionController>().changeRoute('/');
             },
             child: const Center(child: Text("initial page"))),
       ],

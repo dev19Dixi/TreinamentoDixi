@@ -3,15 +3,31 @@ import 'package:treinamento_mvvm/modules/position/pages/initial_page/initial_pag
 
 import '../pages/detail_page/detail_page.dart';
 
-class NavigationPositionController extends ChangeNotifier{
-  Widget currentWidget = const InitialPage();
+class NavigationPositionController extends ChangeNotifier {
+  final GlobalKey<NavigatorState> positionNavigatorKey = GlobalKey<NavigatorState>();
 
-  goToInitialPage() {
-    currentWidget = const InitialPage();
-    notifyListeners();
+  String routeName = '/';
+  Route<dynamic> provideRoutes(String route) {
+    switch (route) {
+      case "/":
+        return PageRouteBuilder(
+          pageBuilder: (_, __, ___) => const InitialPage(),
+        );
+      case "/:id":
+        return PageRouteBuilder(
+          pageBuilder: (_, __, ___) => const DetailPage(),
+        );
+
+      default:
+        return PageRouteBuilder(
+          pageBuilder: (_, __, ___) => const Text("Sem rota"),
+        );
+    }
   }
-  goToDetailPage() {
-    currentWidget = const DetailPage();
+
+  changeRoute(String name) {
+    routeName = name;
     notifyListeners();
+    return positionNavigatorKey.currentState!.pushReplacementNamed(routeName);
   }
 }

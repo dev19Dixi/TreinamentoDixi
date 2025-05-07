@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import 'controllers/routes_provider.dart';
 
-// ignore: must_be_immutable
 class LeftBarNavigator extends StatelessWidget {
   const LeftBarNavigator({
     super.key,

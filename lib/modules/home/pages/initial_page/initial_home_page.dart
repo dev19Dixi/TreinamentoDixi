@@ -12,7 +12,7 @@ class InitialPage extends StatelessWidget {
         const Text("initial Page"),
         TextButton(
             onPressed: () {
-              context.read<NavigationPositionController>().goToDetailPage();
+              context.read<NavigationPositionController>().changeRoute('/');
             },
             child: const Column(
               children: [

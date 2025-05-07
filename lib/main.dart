@@ -16,14 +16,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => RoutesProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => RoutesProvider()),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo MVVM',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: AppColor.kPrimary),
           useMaterial3: true,
         ),
-        // navigatorKey: navigatorKey,
         home: const LeftBarNavigator(),
       ),
     );

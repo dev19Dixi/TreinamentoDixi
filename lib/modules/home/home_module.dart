@@ -10,12 +10,21 @@ class HomeModule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => NavigationPositionController())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => NavigationPositionController()),
+      ],
       child: Scaffold(
-        appBar: AppBar(),
         body: TextButton(
           onPressed: () => RoutesProvider().navigateTo('/policy'),
-          child: const Text("Home module"),
+          child: Consumer<NavigationPositionController>(builder: (context, provider, child) {
+            return Navigator(
+              key: provider.positionNavigatorKey,
+              initialRoute: '/',
+              onGenerateRoute: (RouteSettings settings) {
+                return provider.provideRoutes(provider.routeName);
+              },
+            );
+          }),
         ),
       ),
     );
