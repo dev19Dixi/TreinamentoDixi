@@ -1,4 +1,4 @@
-import '../../models/positition_model.dart';
+import '../position/models/positition_model.dart';
 
 List<PositionModel> mockPositions = [
   PositionModel(

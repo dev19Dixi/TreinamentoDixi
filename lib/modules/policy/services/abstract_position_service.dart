@@ -1,4 +1,4 @@
-import 'package:treinamento_mvvm/models/positition_model.dart';
+import 'package:treinamento_mvvm/modules/position/models/positition_model.dart';
 
 abstract class IPositionService {
   Future<List<PositionModel>?> getAllPositions(bool withError);
