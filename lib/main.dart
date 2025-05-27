@@ -3,30 +3,30 @@ import 'package:provider/provider.dart';
 
 import 'core/navigation/controllers/routes_provider.dart';
 import 'core/navigation/navigation_widget.dart';
-import 'core/style/app_color.dart';
+import 'core/style/theme/theme_controller.dart';
+import 'core/style/theme/theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(providers: [
+      ChangeNotifierProvider<RoutesProvider>(create: (context) => RoutesProvider()),
+      ChangeNotifierProvider<ThemeController>(create: (context) => ThemeController()),
+    ], child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => RoutesProvider()),
-      ],
-      child: MaterialApp(
-        title: 'Flutter Demo MVVM',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: AppColor.kPrimary),
-          useMaterial3: true,
-        ),
-        home: const LeftBarNavigator(),
-      ),
+    return MaterialApp(
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: context.watch<ThemeController>().theme,
+      home: const LeftBarNavigator(),
     );
   }
 }
