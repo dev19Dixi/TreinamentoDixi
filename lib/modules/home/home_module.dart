@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:treinamento_mvvm/modules/position/controllers/navigation_controller.dart';
-
-import '../../core/navigation/controllers/routes_provider.dart';
+import 'package:treinamento_mvvm/modules/home/controllers/navigation_home_controller.dart';
 
 class HomeModule extends StatelessWidget {
   const HomeModule({super.key});
@@ -11,21 +9,18 @@ class HomeModule extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => NavigationPositionController()),
+        ChangeNotifierProvider(create: (_) => NavigationHomeController()),
       ],
       child: Scaffold(
-        body: TextButton(
-          onPressed: () => RoutesProvider().navigateTo('/policy'),
-          child: Consumer<NavigationPositionController>(builder: (context, provider, child) {
-            return Navigator(
-              key: provider.positionNavigatorKey,
-              initialRoute: '/',
-              onGenerateRoute: (RouteSettings settings) {
-                return provider.provideRoutes(provider.routeName);
-              },
-            );
-          }),
-        ),
+        body: Consumer<NavigationHomeController>(builder: (context, provider, child) {
+          return Navigator(
+            key: provider.homeNavigatorKey,
+            initialRoute: '/',
+            onGenerateRoute: (RouteSettings settings) {
+              return provider.provideRoutes(provider.routeName);
+            },
+          );
+        }),
       ),
     );
   }
