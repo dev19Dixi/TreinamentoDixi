@@ -146,6 +146,111 @@ position_module/
 
 Se houver necessidade de adicionar outros tipos de estruturas (como testes, temas, middlewares), é recomendado seguir a mesma lógica modular.
 
+--- 
+## 🚀 Navegação
+
+Em projetos Flutter, a navegação é um ponto crucial que pode facilitar ou complicar o desenvolvimento. Para resolver isso de forma mais robusta, criamos um `RouterProvider` com navegação baseada em **Keys** e o **Singleton Pattern**.
+
+### 🧭 Navegação entre módulos
+
+Esse modelo permite a navegação entre módulos distintos, sem acoplamento com o `BuildContext`.
+
+**Exemplos:**
+
+```dart
+RoutesProvider().navigateTo('/policy');
+RoutesProvider().navigateTo('/position');
+```
+
+---
+
+### ❓ Mas e navegação *dentro* do módulo?
+
+- Há **duas maneiras**:
+
+- **1. Usar Chaves como navegação, sem criar Singleton**
+
+    **No Módulo:**
+    ```dart
+    child: Scaffold(
+      body: Consumer<NavigationHomeController>(builder: (context, provider, child) {
+        return Navigator(
+          key: provider.homeNavigatorKey,
+          initialRoute: '/',
+          onGenerateRoute: (RouteSettings settings) {
+            return provider.provideRoutes(provider.routeName);
+          },
+        );
+      }),
+    ),
+    ```
+
+    **No Controller:**
+    ```dart
+    class NavigationHomeController extends ChangeNotifier {
+      final GlobalKey<NavigatorState> homeNavigatorKey = GlobalKey<NavigatorState>();
+
+      String routeName = '/';
+      Route<dynamic> provideRoutes(String route) {
+        switch (route) {
+          case "/":
+            return PageRouteBuilder(
+              transitionDuration: Duration.zero,
+              pageBuilder: (_, __, ___) => const InitialPage(),
+            );
+          case "/:id":
+            return PageRouteBuilder(
+              transitionDuration: Duration.zero,
+              pageBuilder: (_, __, ___) => const DetailPage(),
+            );
+        }
+      }
+    }
+    ```
+
+---
+
+- **2. Usar Troca de Widget Simples**
+    - Usado para componentes mais simples, sem a necessidade de tratamento alto de `providers`.
+
+    **Ex:**
+
+    **No Módulo:**
+    ```dart
+    child: Scaffold(
+      appBar: AppBar(),
+      body: Column(
+        children: [
+          const Text("Policy module opened :)"),
+          Consumer<NavigationPolicyController>(
+            builder: (context, navigation, child) {
+              return navigation.currentWidget;
+            },
+          ),
+        ],
+      ),
+    ),
+    ```
+
+    **No Controller:**
+    ```dart
+    class NavigationController extends ChangeNotifier {
+      Widget currentWidget = const InitialPage();
+
+      goToInitialPage() {
+        currentWidget = const InitialPage();
+        notifyListeners();
+      }
+
+      goToDetailPage() {
+        currentWidget = const DetailPage();
+        notifyListeners();
+      }
+    }
+    ```
+   
+---
+
 
 Autoria: Renan Volpe
 --
