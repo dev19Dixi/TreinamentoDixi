@@ -250,6 +250,85 @@ RoutesProvider().navigateTo('/position');
     ```
    
 ---
+## 🛰️ Nova função `request()` e tratamento de erros
+
+Em nossa arquitetura, foi introduzida a função `request()` para centralizar chamadas HTTP e o tratamento de falhas. Essa abordagem facilita a manutenção, melhora a legibilidade e padroniza o fluxo de erros na aplicação.
+
+
+### ✅ Sucesso — Código 200
+
+- Em casos de sucesso, o `request()` retorna um `Map<String, dynamic>`, contendo os dados da requisição.
+- Nenhuma exceção é lançada nesse cenário.
+
+
+### ❌ Tratamento de Erros com `ErrorHandler.checkError()`
+
+Quando o status code da resposta não for 200, usamos `ErrorHandler.checkError(statusCode)` para lançar falhas específicas que implementam a interface `IDixiFailure`.
+
+Essa função verifica o código HTTP e lança uma das seguintes falhas:
+
+
+### 📦 `400` — `FormatFailure`
+
+- Indica que houve uma **requisição malformada** ou erro de validação no body.
+- É lançada automaticamente quando o `statusCode == 400`.
+
+**Comportamento esperado:**
+- Lança: `FormatFailure`
+- Mensagem: `FormatFailure().message`
+
+
+### 🔒 `401` — `NoAccessFailure`
+
+- Indica que o usuário **não possui permissão** ou está **não autenticado**.
+- Lançada quando o `statusCode == 401`.
+
+**Comportamento esperado:**
+- Lança: `NoAccessFailure`
+- Mensagem: `NoAccessFailure().message`
+
+
+### 📭 `404` — `FormatFailure`
+
+- Indica que o endpoint **não foi encontrado**.
+- Lançada quando o `statusCode == 404`.
+
+**Comportamento esperado:**
+- Lança: `FormatFailure`
+- Mensagem: `FormatFailure().message`
+
+
+### 💥 `500` — `ServerFailure`
+
+- Indica que houve um erro no **servidor**.
+- Lançada quando o `statusCode == 500`.
+
+**Comportamento esperado:**
+- Lança: `ServerFailure`
+- Mensagem: `ServerFailure().message`
+
+
+### 🧪 Benefícios da abordagem
+
+- ✅ **Centralização** do tratamento de erro via `ErrorHandler`.
+- ✅ Todo erro ocorrido na API será tratado no front, caso não seja (200 - 299)
+- ✅ Redução de duplicação de código.
+- ✅ Facilidade para log e rastreio de falhas específicas.
+
+---
+
+### 🧱 Exemplo de uso 
+
+```dart
+try {
+  final result = await requestApiService.request(RequestsType.get, someUri);
+  // usar result normalmente...
+} on IDixiFailure catch (e) {
+  // tratar falha específica: FormatFailure, ServerFailure...
+  // Ou retona mensagem automáticamente do Failure encontrado
+  log(e.message);
+}
+```
 
 
 Autoria: Renan Volpe
