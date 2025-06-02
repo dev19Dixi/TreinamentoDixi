@@ -22,6 +22,7 @@ class NavigationHomeController extends ChangeNotifier {
 
       default:
         return PageRouteBuilder(
+          transitionDuration: Duration.zero,
           pageBuilder: (_, __, ___) => const Text("Sem rota"),
         );
     }

@@ -1,34 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'widgets/home_information_widget.dart';
-import 'widgets/list_buttons_widget.dart';
-import 'widgets/list_text_widget.dart';
-import 'widgets/row_list_buttons_widget.dart';
-
-class InitialPage extends StatelessWidget {
-  const InitialPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 15),
-            HomeInformationWidget(),
-            ListTextWidget(),
-            SizedBox(height: 8),
-            ListButtonsIwdget(),
-            SizedBox(height: 8),
-            RowListContainersWidget(),
-            RowListButtonswidgets(),
-            SizedBox(height: 15),
-          ],
-        ),
-      ),
-    );
-  }
-}
+import 'package:treinamento_mvvm/core/style/build_context.dart';
 
 class RowListContainersWidget extends StatelessWidget {
   const RowListContainersWidget({
