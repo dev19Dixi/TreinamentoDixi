@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:treinamento_mvvm/core/style/build_context.dart';
 
-import '../../../../navigation/controllers/routes_provider.dart';
+import '../../../../../core/navigation/controllers/routes_provider.dart';
 import '../../../controllers/navigation_home_controller.dart';
 
 class RowListButtonswidgets extends StatelessWidget {
