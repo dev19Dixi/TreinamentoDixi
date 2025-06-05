@@ -5,7 +5,8 @@ import 'package:treinamento_mvvm/core/style/build_context.dart';
 import '../../controllers/navigation_home_controller.dart';
 
 class DetailPage extends StatelessWidget {
-  const DetailPage({super.key});
+  const DetailPage({super.key, required this.id});
+  final int id;
 
   @override
   Widget build(BuildContext context) {

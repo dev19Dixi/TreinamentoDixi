@@ -17,7 +17,7 @@ class NavigationHomeController extends ChangeNotifier {
       case "/:id":
         return PageRouteBuilder(
           transitionDuration: Duration.zero,
-          pageBuilder: (_, __, ___) => const DetailPage(),
+          pageBuilder: (_, __, ___) => const DetailPage(id: 0),
         );
 
       default:
