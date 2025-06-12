@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../colors/theme_colors.dart';
 
-
 class TextStyleDixi {
-  static const String _fontFamily = 'RobotoSlab';
+  static const String _fontFamily = 'Roboto';
   static const TextStyle _baseTextStyle = TextStyle(fontFamily: _fontFamily);
 
   static TextStyle defaultText(BuildContext context) {
@@ -89,7 +88,7 @@ class TextStyleDixi {
 
   static TextStyle blackBoldText(BuildContext context) {
     return _baseTextStyle.copyWith(
-      color: ThemeColor(context).onBackgroundColor,
+      color: ThemeColor(context).shadowColor,
       fontSize: 14,
       fontWeight: FontWeight.w700,
     );

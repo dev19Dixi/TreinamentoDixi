@@ -9,42 +9,52 @@ class AppTheme {
       scaffoldBackgroundColor: AppColors.listViewBackground,
       fontFamily: 'Roboto',
       colorScheme: const ColorScheme.light(
-        //primary
+        // PRIMARY
         primary: AppColors.primary,
         onPrimary: AppColors.white,
         primaryContainer: AppColors.primaryLight,
         onPrimaryContainer: AppColors.primaryDark,
+
+        // SECONDARY
         secondary: AppColors.blue,
-        //whites
         onSecondary: AppColors.white,
         secondaryContainer: AppColors.grey1,
         onSecondaryContainer: AppColors.grey5,
-        //success
+
+        // TERTIARY (SUCCESS)
         tertiary: AppColors.greenDark,
         onTertiary: AppColors.greenText,
         tertiaryContainer: AppColors.greenBox,
         onTertiaryContainer: AppColors.greenLight1,
-        //error
+
+        // ERROR
         error: AppColors.redText,
         onError: AppColors.white,
         errorContainer: AppColors.redBox,
         onErrorContainer: AppColors.redDark,
-        //background
+
+        // NEUTRAL / BACKGROUND / SURFACE
         background: AppColors.listViewBackground,
         onBackground: AppColors.text,
         surface: AppColors.white,
         onSurface: AppColors.text,
         surfaceVariant: AppColors.grey2,
         onSurfaceVariant: AppColors.grey6,
+
+        // OUTLINE & SHADOWS
         outline: AppColors.grey3,
         outlineVariant: AppColors.grey4,
         shadow: AppColors.black,
         scrim: AppColors.darkBackground,
-        //inverses
+
+        // INVERSE
         inverseSurface: AppColors.darkSurface,
         onInverseSurface: AppColors.darkText,
         inversePrimary: AppColors.primaryDark,
+
+        // TINT
         surfaceTint: AppColors.primary,
+
         brightness: Brightness.light,
       ),
       appBarTheme: const AppBarTheme(
@@ -179,45 +189,68 @@ class AppTheme {
       scaffoldBackgroundColor: AppColors.darkBackground,
       fontFamily: 'Roboto',
       colorScheme: const ColorScheme.dark(
-        //primary
+        // --------------------
+        // PRIMARY
+        // --------------------
         primary: AppColors.primary,
         onPrimary: AppColors.white,
         primaryContainer: AppColors.primaryDark,
         onPrimaryContainer: AppColors.white,
-        //secondary
+
+        // --------------------
+        // SECONDARY
+        // --------------------
         secondary: AppColors.blue,
         onSecondary: AppColors.white,
         secondaryContainer: AppColors.grey5,
         onSecondaryContainer: AppColors.whiteLight,
-        //success
+
+        // --------------------
+        // TERTIARY (SUCCESS)
+        // --------------------
         tertiary: AppColors.greenText,
         onTertiary: AppColors.greenDark,
         tertiaryContainer: AppColors.greenBox,
         onTertiaryContainer: AppColors.greenLight2,
-        //error
+
+        // --------------------
+        // ERROR
+        // --------------------
         error: AppColors.redDark,
         onError: AppColors.redActive,
         errorContainer: AppColors.redBox,
         onErrorContainer: AppColors.redLight2,
-        //background
+
+        // --------------------
+        // BACKGROUND & SURFACE
+        // --------------------
         background: AppColors.darkBackground,
         onBackground: AppColors.darkOnBackground,
-        //surface
         surface: AppColors.darkSurface,
         onSurface: AppColors.darkOnSurface,
         surfaceVariant: AppColors.grey3,
         onSurfaceVariant: AppColors.grey4,
 
+        // --------------------
+        // OUTLINE & SHADOWS
+        // --------------------
         outline: AppColors.darkGrey,
         outlineVariant: AppColors.grey6,
         shadow: AppColors.black,
         scrim: AppColors.black,
-        //inverse
+
+        // --------------------
+        // INVERSE COLORS
+        // --------------------
         inverseSurface: AppColors.whiteLight,
         onInverseSurface: AppColors.text,
         inversePrimary: AppColors.primaryLight,
 
+        // --------------------
+        // TINT
+        // --------------------
         surfaceTint: AppColors.primary,
+
         brightness: Brightness.dark,
       ),
       appBarTheme: const AppBarTheme(
