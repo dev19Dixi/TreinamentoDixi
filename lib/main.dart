@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'core/navigation/controllers/routes_provider.dart';
-import 'core/navigation/navigation_widget.dart';
-import 'core/style/theme/theme_controller.dart';
+import 'core/navigation/widgets/menu_left_widget.dart';
 import 'core/style/theme/theme.dart';
+import 'core/style/theme/theme_controller.dart';
 
 void main() {
   runApp(
     MultiProvider(providers: [
-      ChangeNotifierProvider<RoutesProvider>(create: (context) => RoutesProvider()),
+      ChangeNotifierProvider.value(value: RoutesProvider()),
       ChangeNotifierProvider<ThemeController>(create: (context) => ThemeController()),
     ], child: const MyApp()),
   );
@@ -26,7 +26,15 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: context.watch<ThemeController>().theme,
-      home: const LeftBarNavigator(),
+      home: MenuLeftWidget(
+        child: Navigator(
+          key: RoutesProvider().navigatorKey,
+          initialRoute: '/',
+          onGenerateRoute: (RouteSettings settings) {
+            return RoutesProvider().provideRoutes(settings);
+          },
+        ),
+      ),
     );
   }
 }
