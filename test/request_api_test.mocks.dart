@@ -3,11 +3,11 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i3;
 
-import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:treinamento_mvvm/core/request/request.dart' as _i3;
+import 'package:mockito/src/dummies.dart' as _i4;
+import 'package:treinamento_mvvm/core/request/request.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -22,27 +22,35 @@ import 'package:treinamento_mvvm/core/request/request.dart' as _i3;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeResponse_0 extends _i1.SmartFake implements _i2.Response {
-  _FakeResponse_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
 /// A class which mocks [RequestApiService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockRequestApiService extends _i1.Mock implements _i3.RequestApiService {
+class MockRequestApiService extends _i1.Mock implements _i2.RequestApiService {
   MockRequestApiService() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<Map<String, dynamic>?> request(
-    _i3.RequestsType? requestsType,
+  bool get isToPrintRequest => (super.noSuchMethod(
+        Invocation.getter(#isToPrintRequest),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  bool get isToPrintBody => (super.noSuchMethod(
+        Invocation.getter(#isToPrintBody),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  bool get isToPrintToken => (super.noSuchMethod(
+        Invocation.getter(#isToPrintToken),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  _i3.Future<Map<String, dynamic>?> request(
+    _i2.RequestsType? requestsType,
     Uri? uri, {
     String? token = r'',
     Object? body,
@@ -61,40 +69,44 @@ class MockRequestApiService extends _i1.Mock implements _i3.RequestApiService {
             #entity: entity,
           },
         ),
-        returnValue: _i4.Future<Map<String, dynamic>?>.value(),
-      ) as _i4.Future<Map<String, dynamic>?>);
+        returnValue: _i3.Future<Map<String, dynamic>?>.value(),
+      ) as _i3.Future<Map<String, dynamic>?>);
 
   @override
-  _i4.Future<_i2.Response> requestType(
-    _i3.RequestsType? requestsType,
-    Uri? uri,
-    String? token,
+  _i3.Future<String> requestString(
+    _i2.RequestsType? requestsType,
+    Uri? uri, {
+    String? token = r'',
     Object? body,
-    String? entity,
-  ) =>
+    String? entity = r'',
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
-          #requestType,
+          #requestString,
           [
             requestsType,
             uri,
-            token,
-            body,
-            entity,
           ],
+          {
+            #token: token,
+            #body: body,
+            #entity: entity,
+          },
         ),
-        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_0(
+        returnValue: _i3.Future<String>.value(_i4.dummyValue<String>(
           this,
           Invocation.method(
-            #requestType,
+            #requestString,
             [
               requestsType,
               uri,
-              token,
-              body,
-              entity,
             ],
+            {
+              #token: token,
+              #body: body,
+              #entity: entity,
+            },
           ),
         )),
-      ) as _i4.Future<_i2.Response>);
+      ) as _i3.Future<String>);
 }

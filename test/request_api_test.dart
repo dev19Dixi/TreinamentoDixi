@@ -7,8 +7,9 @@ import 'package:treinamento_mvvm/core/request/request.dart';
 
 import 'request_api_test.mocks.dart';
 
-Uri pulicApi = Uri.parse("https://rickandmortyapi.com/api/character/271");
-Uri uriMock = Uri.parse("https://mocktest.com");
+const String endpoint = '/user';
+final Uri pulicApi = Uri.parse("https://mockapi.io/projects/68408aa95b39a8039a586abd/$endpoint");
+final Uri uriMock = Uri.parse("https://mocktest.com");
 
 @GenerateMocks([RequestApiService])
 void main() {
@@ -20,11 +21,37 @@ void main() {
   });
 
   group("Grupo de teste de Failures", () {
-    test("Success - 200", () async {
+    test("Success - 200 - GET A", () async {
       var result = await requestApiService.request(RequestsType.get, pulicApi);
 
       expect(result, isA<Map<String, dynamic>>());
     });
+
+       test("Success - 200 - GET LIST", () async {
+      var result = await requestApiService.request(RequestsType.get, pulicApi);
+
+      expect(result, isA<Map<String, dynamic>>());
+    });
+
+    
+       test("Success - 200 - POST", () async {
+      var result = await requestApiService.request(RequestsType.get, pulicApi);
+
+      expect(result, isA<Map<String, dynamic>>());
+    });
+
+   test("Success - 200 - PUT", () async {
+      var result = await requestApiService.request(RequestsType.get, pulicApi);
+
+      expect(result, isA<Map<String, dynamic>>());
+    });
+
+   test("Success - 200 - GET", () async {
+      var result = await requestApiService.request(RequestsType.get, pulicApi);
+
+      expect(result, isA<Map<String, dynamic>>());
+    });
+
 
     test("Error - 400", () async {
       when(mockRequestApiService.request(RequestsType.get, uriMock)).thenAnswer((_) async {
