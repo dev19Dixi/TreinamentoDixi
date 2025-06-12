@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 class AppDimensions {
-  // Padding
-  static const double paddingXS = 4.0;
-  static const double paddingS = 8.0;
-  static const double padding = 16.0;
-  static const double paddingL = 24.0;
-  static const double paddingXL = 32.0;
+  // Padding or Margin
+  static const double spaceXS = 5;
+  static const double spaceS = 10;
+  static const double space = 16.0;
+  static const double spaceL = 24.0;
+  static const double spaceXL = 32.0;
 
-  // Margin
-  static const double marginXS = 4.0;
-  static const double marginS = 8.0;
-  static const double margin = 16.0;
-  static const double marginL = 24.0;
-  static const double marginXL = 32.0;
+  // EdgeInsets
+  static const EdgeInsetsGeometry symetricXS = EdgeInsets.symmetric(vertical: spaceXS);
+  static const EdgeInsetsGeometry symetricS = EdgeInsets.symmetric(vertical: spaceS);
+  static const EdgeInsetsGeometry symetric = EdgeInsets.symmetric(vertical: space);
+  static const EdgeInsetsGeometry symetricL = EdgeInsets.symmetric(vertical: spaceL);
+  static const EdgeInsetsGeometry symetricXL = EdgeInsets.symmetric(vertical: spaceXL);
 
   // Border Radius
   static const double radiusXS = 4.0;
@@ -48,10 +48,4 @@ class AppDimensions {
   static const double avatarSmall = 24.0;
   static const double avatarMedium = 40.0;
   static const double avatarLarge = 56.0;
-
-  // Spacing Helpers
-  static const SizedBox hSpaceS = SizedBox(width: paddingS);
-  static const SizedBox hSpace = SizedBox(width: padding);
-  static const SizedBox vSpaceS = SizedBox(height: paddingS);
-  static const SizedBox vSpace = SizedBox(height: padding);
 }
