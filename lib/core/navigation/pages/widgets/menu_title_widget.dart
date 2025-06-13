@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:treinamento_mvvm/core/style/build_context.dart';
+import 'package:treinamento_mvvm/core/utils/controllers/icon_from_string.dart';
 import 'package:treinamento_mvvm/core/utils/widgets/hoverable_mixin.dart';
 import 'package:treinamento_mvvm/core/utils/widgets/sized_box_extension.dart';
 
-import '../../utils/app_dimensions.dart';
+import '../../../utils/app_dimensions.dart';
 import '../controllers/menu_title_controller.dart';
 
 class MenuTitleWidget extends StatefulWidget {
@@ -17,10 +18,9 @@ class MenuTitleWidget extends StatefulWidget {
 class _MenuTitleWidgetState extends State<MenuTitleWidget> with HoverableMixin {
   @override
   Widget build(BuildContext context) {
-    Color targetIconColor = isHovered ? context.colors.onPrimaryColor : context.colors.primaryColor;
-
+    var menuController = context.read<MenuTitleController>();
     return GestureDetector(
-      onTap: () => context.read<MenuTitleController>().openSubMenu(),
+      onTap: () => menuController.openSubMenu(),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         onEnter: (_) => handleHover(true),
@@ -28,28 +28,28 @@ class _MenuTitleWidgetState extends State<MenuTitleWidget> with HoverableMixin {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 100),
           curve: Curves.easeInOut,
-          color: isHovered ? context.colors.primaryColor : context.colors.onPrimaryColor,
+          color: _getColorBackground(),
           child: Row(
             children: [
               20.sizeW,
               TweenAnimationBuilder<Color?>(
-                tween: ColorTween(begin: targetIconColor, end: targetIconColor),
+                tween: ColorTween(begin: _getColorIconStart(), end: _getColorIconStart()),
                 duration: const Duration(milliseconds: 100),
                 builder: (context, color, child) {
                   return Icon(
-                    Icons.library_books_outlined,
+                    iconFromString[menuController.menuModel.icon],
                     color: color,
                   );
                 },
               ),
               20.sizeW,
               AnimatedDefaultTextStyle(
-                style: isHovered ? context.styles.lightText : context.styles.blackBoldText,
+                style: _getColorText(),
                 duration: const Duration(milliseconds: 100),
                 curve: Curves.easeInOut,
                 child: Container(
                   padding: AppDimensions.symetric,
-                  child: const Text("CADASTRO"),
+                  child: Text(menuController.menuModel.name.toUpperCase()),
                 ),
               ),
               const Spacer(),
@@ -59,7 +59,7 @@ class _MenuTitleWidgetState extends State<MenuTitleWidget> with HoverableMixin {
                 curve: Curves.easeInOut,
                 child: Icon(
                   Icons.keyboard_arrow_down_sharp,
-                  color: isHovered ? context.colors.onPrimaryColor : context.colors.onSurfaceVariant,
+                  color: _getColorIcon(),
                 ),
               ),
               20.sizeW,
@@ -68,5 +68,29 @@ class _MenuTitleWidgetState extends State<MenuTitleWidget> with HoverableMixin {
         ),
       ),
     );
+  }
+
+  _getColorBackground() {
+    bool isOpen = context.watch<MenuTitleController>().isOpen;
+    if (isOpen || isHovered) return context.colors.primaryColor;
+    return context.colors.onPrimaryColor;
+  }
+
+  _getColorText() {
+    bool isOpen = context.watch<MenuTitleController>().isOpen;
+    if (isOpen || isHovered) return context.styles.lightText;
+    return context.styles.blackBoldText;
+  }
+
+  _getColorIcon() {
+    bool isOpen = context.watch<MenuTitleController>().isOpen;
+    if (isOpen || isHovered) return context.colors.surfaceColor;
+    return context.colors.onSurfaceVariant;
+  }
+
+  _getColorIconStart() {
+    bool isOpen = context.watch<MenuTitleController>().isOpen;
+    if (isOpen || isHovered) return context.colors.onPrimaryColor;
+    return context.colors.primaryColor;
   }
 }

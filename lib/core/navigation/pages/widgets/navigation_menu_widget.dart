@@ -3,23 +3,24 @@ import 'package:provider/provider.dart';
 import 'package:treinamento_mvvm/core/utils/widgets/hoverable_mixin.dart';
 
 import '../controllers/menu_title_controller.dart';
+import '../../models/menu_model.dart';
 import 'menu_title_widget.dart';
 import 'sub_menu_widget.dart';
 
-class NavigationMenuWidget extends StatefulWidget {
-  const NavigationMenuWidget({
-    super.key,
-  });
+class MenuNavigationWidget extends StatefulWidget {
+  const MenuNavigationWidget({super.key, required this.menuModel});
+
+  final MenuModel menuModel;
 
   @override
-  State<NavigationMenuWidget> createState() => _NavigationMenuWidgetState();
+  State<MenuNavigationWidget> createState() => _MenuNavigationWidgetState();
 }
 
-class _NavigationMenuWidgetState extends State<NavigationMenuWidget> with HoverableMixin {
+class _MenuNavigationWidgetState extends State<MenuNavigationWidget> with HoverableMixin {
   late MenuTitleController menuTitleController;
   @override
   void initState() {
-    menuTitleController = MenuTitleController();
+    menuTitleController = MenuTitleController(widget.menuModel);
     super.initState();
   }
 
@@ -38,9 +39,11 @@ class _NavigationMenuWidgetState extends State<NavigationMenuWidget> with Hovera
                     child: controller.isOpen
                         ? ListView.builder(
                             shrinkWrap: true,
-                            itemCount: 2,
+                            itemCount: menuTitleController.menuModel.listSubMenu.length,
                             itemBuilder: (context, index) {
-                              return const SubMenuWidget();
+                              return SubMenuWidget(
+                                subMenuModel: menuTitleController.menuModel.listSubMenu[index],
+                              );
                             })
                         : const SizedBox())
               ],
