@@ -48,7 +48,9 @@ class RoutesProvider extends ChangeNotifier {
   Route<dynamic> _errorRoute() {
     return PageRouteBuilder(
       transitionDuration: Duration.zero,
-      pageBuilder: (_, __, ___) => const ErrorModule(),
+      pageBuilder: (_, __, ___) => ErrorModule(
+        route: routeName,
+      ),
     );
   }
 }

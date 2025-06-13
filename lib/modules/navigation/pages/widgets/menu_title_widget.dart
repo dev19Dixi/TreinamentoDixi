@@ -16,8 +16,10 @@ class MenuTitleWidget extends StatefulWidget {
 }
 
 class _MenuTitleWidgetState extends State<MenuTitleWidget> with HoverableMixin {
+  bool isOpen = false;
   @override
   Widget build(BuildContext context) {
+    isOpen = context.watch<MenuTitleController>().isOpen;
     var menuController = context.read<MenuTitleController>();
     return GestureDetector(
       onTap: () => menuController.openSubMenu(),
@@ -71,25 +73,21 @@ class _MenuTitleWidgetState extends State<MenuTitleWidget> with HoverableMixin {
   }
 
   _getColorBackground() {
-    bool isOpen = context.watch<MenuTitleController>().isOpen;
     if (isOpen || isHovered) return context.colors.primaryColor;
-    return context.colors.onPrimaryColor;
+    return context.colors.surfaceColor;
   }
 
   _getColorText() {
-    bool isOpen = context.watch<MenuTitleController>().isOpen;
     if (isOpen || isHovered) return context.styles.lightText;
     return context.styles.blackBoldText;
   }
 
   _getColorIcon() {
-    bool isOpen = context.watch<MenuTitleController>().isOpen;
     if (isOpen || isHovered) return context.colors.surfaceColor;
     return context.colors.onSurfaceVariant;
   }
 
   _getColorIconStart() {
-    bool isOpen = context.watch<MenuTitleController>().isOpen;
     if (isOpen || isHovered) return context.colors.onPrimaryColor;
     return context.colors.primaryColor;
   }

@@ -1,12 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:treinamento_mvvm/core/style/build_context.dart';
 import 'package:treinamento_mvvm/core/utils/widgets/sized_box_extension.dart';
 
-import '../../../core/style/theme/theme_controller.dart';
-import '../controllers/get_list_menu_provider.dart';
-import 'widgets/navigation_menu_widget.dart';
+import 'widgets/image_dixi_widget.dart';
+import 'widgets/list_menu_navigation_widget.dart';
+import 'widgets/switch_theme_widget.dart';
+import 'widgets/text_field_search_cenu_widget.dart';
 
 class MenuLeftPage extends StatelessWidget {
   const MenuLeftPage({
@@ -63,77 +63,5 @@ class MenuLeftPage extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class SwitchThemeWidget extends StatelessWidget {
-  const SwitchThemeWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<ThemeController>(builder: (context, controller, child) {
-      return Switch(
-        value: controller.theme == ThemeMode.light,
-        onChanged: (value) => controller.toogle(),
-      );
-    });
-  }
-}
-
-class TextFieldSearchMenuWidget extends StatelessWidget {
-  const TextFieldSearchMenuWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return const Text("pesqusiar textField");
-  }
-}
-
-class ImageDixiWidget extends StatelessWidget {
-  const ImageDixiWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return const Text("Imagem Dixi");
-  }
-}
-
-class ListMenuNavigationWidget extends StatelessWidget {
-  const ListMenuNavigationWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<GetListMenuProvider>(builder: (context, menuProvider, child) {
-      return Column(
-        children: [
-          Divider(
-            height: 1,
-            color: context.colors.surfaceVariant,
-          ),
-          ListView.separated(
-              separatorBuilder: (context, index) => Divider(
-                    height: 1,
-                    color: context.colors.surfaceVariant,
-                  ),
-              shrinkWrap: true,
-              itemCount: menuProvider.listMenu.length,
-              itemBuilder: (context, index) {
-                return MenuNavigationWidget(menuModel: menuProvider.listMenu[index]);
-              }),
-          Divider(
-            height: 1,
-            color: context.colors.surfaceVariant,
-          ),
-        ],
-      );
-    });
   }
 }
