@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'controllers/get_list_menu_provider.dart';
+import 'pages/controllers/get_list_menu_provider.dart';
 import 'pages/menu_left_page.dart';
 import 'services/menu_service.dart';
 

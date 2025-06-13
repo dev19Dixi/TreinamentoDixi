@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:treinamento_mvvm/core/style/build_context.dart';
 
-import '../../controllers/get_list_menu_provider.dart';
+import '../controllers/get_list_menu_provider.dart';
 import 'navigation_menu_widget.dart';
 
 class ListMenuNavigationWidget extends StatelessWidget {

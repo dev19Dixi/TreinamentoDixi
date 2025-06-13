@@ -6,7 +6,6 @@ class MenuTitleController extends ChangeNotifier{
   MenuTitleController(this.menuModel);
   MenuModel menuModel;
 
-  String currentRoute = '/';
   bool isOpen = false;
 
   openSubMenu(){
