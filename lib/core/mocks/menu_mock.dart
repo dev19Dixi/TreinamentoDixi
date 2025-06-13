@@ -1,5 +1,5 @@
-import 'package:treinamento_mvvm/core/navigation/models/menu_model.dart';
-import 'package:treinamento_mvvm/core/navigation/models/submenu_model.dart';
+import 'package:treinamento_mvvm/modules/navigation/models/menu_model.dart';
+import 'package:treinamento_mvvm/modules/navigation/models/submenu_model.dart';
 
 List<MenuModel> menuMock = [
   MenuModel(

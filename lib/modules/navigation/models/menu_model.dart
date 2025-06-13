@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
-import 'package:treinamento_mvvm/core/navigation/models/submenu_model.dart';
+import 'package:treinamento_mvvm/modules/navigation/models/submenu_model.dart';
 
 class MenuModel {
   String name;

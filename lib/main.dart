@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'core/navigation/controllers/routes_provider.dart';
-import 'core/navigation/navigation_module.dart';
+import 'modules/navigation/controllers/routes_provider.dart';
+import 'modules/navigation/navigation_module.dart';
 import 'core/style/theme/theme.dart';
 import 'core/style/theme/theme_controller.dart';
 

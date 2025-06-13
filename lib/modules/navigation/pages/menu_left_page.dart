@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:treinamento_mvvm/core/style/build_context.dart';
 import 'package:treinamento_mvvm/core/utils/widgets/sized_box_extension.dart';
 
-import '../../style/theme/theme_controller.dart';
+import '../../../core/style/theme/theme_controller.dart';
 import '../controllers/get_list_menu_provider.dart';
 import 'widgets/navigation_menu_widget.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
-import 'package:treinamento_mvvm/core/navigation/controllers/routes_provider.dart';
+import 'package:treinamento_mvvm/modules/navigation/controllers/routes_provider.dart';
 import 'package:treinamento_mvvm/core/style/theme/theme.dart';
 import 'package:treinamento_mvvm/core/style/theme/theme_controller.dart';
 import 'package:treinamento_mvvm/modules/home/controllers/navigation_home_controller.dart';
