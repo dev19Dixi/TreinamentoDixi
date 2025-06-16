@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:treinamento_mvvm/modules/navigation/services/menu_service.dart';
 
-import '../../models/menu_model.dart';
+import '../../../models/menu_model.dart';
 
 class GetListMenuProvider extends ChangeNotifier {
   GetListMenuProvider(this.service);

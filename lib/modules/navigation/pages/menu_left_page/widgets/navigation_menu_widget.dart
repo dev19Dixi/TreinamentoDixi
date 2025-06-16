@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:treinamento_mvvm/core/utils/widgets/hoverable_mixin.dart';
 
+import '../../../models/menu_model.dart';
 import '../controllers/menu_title_controller.dart';
-import '../../models/menu_model.dart';
 import 'menu_title_widget.dart';
 import 'sub_menu_widget.dart';
 

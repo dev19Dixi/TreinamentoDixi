@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:treinamento_mvvm/core/style/build_context.dart';
 import 'package:treinamento_mvvm/core/utils/widgets/sized_box_extension.dart';
 
+import '../../../app_bar/pages/appbar_custom.dart';
 import 'widgets/image_dixi_widget.dart';
 import 'widgets/list_menu_navigation_widget.dart';
 import 'widgets/switch_theme_widget.dart';
@@ -18,6 +19,7 @@ class MenuLeftPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const AppBarCustom(),
       body: Row(
         children: [
           Container(
@@ -65,3 +67,4 @@ class MenuLeftPage extends StatelessWidget {
     );
   }
 }
+

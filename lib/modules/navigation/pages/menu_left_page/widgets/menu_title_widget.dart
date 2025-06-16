@@ -5,7 +5,7 @@ import 'package:treinamento_mvvm/core/utils/controllers/icon_from_string.dart';
 import 'package:treinamento_mvvm/core/utils/widgets/hoverable_mixin.dart';
 import 'package:treinamento_mvvm/core/utils/widgets/sized_box_extension.dart';
 
-import '../../../../core/utils/app_dimensions.dart';
+import '../../../../../core/utils/app_dimensions.dart';
 import '../controllers/menu_title_controller.dart';
 
 class MenuTitleWidget extends StatefulWidget {

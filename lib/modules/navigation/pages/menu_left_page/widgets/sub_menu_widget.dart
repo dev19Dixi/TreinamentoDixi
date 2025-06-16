@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:treinamento_mvvm/modules/navigation/models/submenu_model.dart';
 import 'package:treinamento_mvvm/core/style/build_context.dart';
 import 'package:treinamento_mvvm/core/utils/widgets/hoverable_mixin.dart';
 import 'package:treinamento_mvvm/core/utils/widgets/sized_box_extension.dart';
+import 'package:treinamento_mvvm/modules/navigation/models/submenu_model.dart';
 
-import '../../../../core/utils/app_dimensions.dart';
-import '../../controllers/routes_provider.dart';
+import '../../../../../core/utils/app_dimensions.dart';
+import '../../../controllers/routes_provider.dart';
 
 class SubMenuWidget extends StatefulWidget {
   const SubMenuWidget({super.key, required this.subMenuModel});
