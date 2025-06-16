@@ -8,10 +8,11 @@ class PositionModule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => NavigationPositionController())],
-      child: Scaffold(
-        appBar: AppBar(),
-        body: const Text("Position module opened :)"),
+      providers: [
+        ChangeNotifierProvider(create: (_) => NavigationPositionController()),
+      ],
+      child: const Center(
+        child: Text("Position module opened :)"),
       ),
     );
   }
