@@ -250,6 +250,73 @@ RoutesProvider().navigateTo('/position');
     ```
    
 ---
+## 🧩 Uso do Novo Menu e AppBar
+
+No nosso projeto, o **Menu lateral** é considerado (quase) estático após ser carregado com um `getMenus()`, ou seja, ele **não se altera durante a navegação** do sistema. Por outro lado, o **AppBar** é **dinâmico** e **adaptável a cada módulo**, podendo ser personalizado de acordo com a página ativa, controlado via `RoutesProvider()`.
+
+Para isso, é necessário que cada **módulo** siga algumas convenções e implementações específicas.
+
+> ⚠️ Importante: o `AppBarCustom` é sempre chamado dentro do **Widget do menu lateral fixo**.
+
+---
+
+### 🛠️ Requisitos para usar o AppBar dinâmico
+
+Para permitir a navegação e alteração do AppBar conforme o módulo, é necessário:
+
+1. O módulo **deve ser um `StatefulWidget`**
+2. O módulo **deve implementar `IHomeModule`** com `implements IHomeModule`
+3. O módulo **deve sobrescrever `appBarModel`** retornando um `AppBarModel` com o título e ações desejadas
+4. A **classe de estado** do módulo deve utilizar o **mixin `AppBarCustomMixin`**
+
+---
+
+### 📦 Exemplo de implementação
+
+```dart
+class PolicyModule extends StatefulWidget implements IHomeModule {
+  const PolicyModule({super.key});
+
+  @override
+  State<PolicyModule> createState() => _PolicyModuleState();
+
+  @override
+  AppBarModel get appBarModel => AppBarModel(
+        title: '123',
+        listActions: [
+          const Text("test2"),
+        ],
+      );
+}
+
+class _PolicyModuleState extends State<PolicyModule> with AppBarCustomMixin {
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => NavigationPolicyController()),
+      ],
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Policy module opened :)"),
+            Consumer<NavigationPolicyController>(
+              builder: (context, navigation, child) {
+                return navigation.currentWidget;
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+---
+
+
 ## 🛰️ Nova função `request()` e tratamento de erros
 
 Em nossa arquitetura, foi introduzida a função `request()` para centralizar chamadas HTTP e o tratamento de falhas. Essa abordagem facilita a manutenção, melhora a legibilidade e padroniza o fluxo de erros na aplicação.
