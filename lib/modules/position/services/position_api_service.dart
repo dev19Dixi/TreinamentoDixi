@@ -5,7 +5,7 @@ import '../../db/position_model_mock.dart';
 import 'abstract_position_service.dart';
 
 class PositionApiService extends ChangeNotifier implements IPositionService {
-  static const String _endpoint = "";
+  // static const String _endpoint = "";
 
   @override
   Future<List<PositionModel>?> getAllPositions(bool withError) async {
