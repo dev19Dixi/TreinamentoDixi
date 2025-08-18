@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 import '../models/i_home_module.dart';
 import '../pages/controllers/appbar_custom_controller.dart';
 
-
-
 mixin AppBarCustomMixin<T extends StatefulWidget> on State<T> {
   @override
   void initState() {

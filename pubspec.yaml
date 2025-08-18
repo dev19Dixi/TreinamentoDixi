@@ -43,6 +43,7 @@ dependencies:
   build_runner: ^2.4.9
   logger: ^2.5.0
   collection: ^1.18.0
+  freezed: ^2.5.2
 
 dev_dependencies:
   flutter_test:

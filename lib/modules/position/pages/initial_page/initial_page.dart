@@ -3,8 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:treinamento_mvvm/core/style/build_context.dart';
 import 'package:treinamento_mvvm/modules/position/controllers/navigation_controller.dart';
 
+import 'initial_page_controller.dart';
+
 class InitialPage extends StatelessWidget {
-  const InitialPage({super.key});
+  const InitialPage({super.key, required this.controller});
+
+  final InitialPageController controller;
 
   @override
   Widget build(BuildContext context) {

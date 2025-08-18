@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:treinamento_mvvm/modules/position/pages/initial_page/initial_page.dart';
 
 import '../pages/detail_page/detail_page.dart';
+import '../pages/initial_page/initial_page_controller.dart';
 
 class NavigationPositionController extends ChangeNotifier {
   final GlobalKey<NavigatorState> positionNavigatorKey = GlobalKey<NavigatorState>();
@@ -11,7 +12,7 @@ class NavigationPositionController extends ChangeNotifier {
     switch (route) {
       case "/":
         return PageRouteBuilder(
-          pageBuilder: (_, __, ___) => const InitialPage(),
+          pageBuilder: (_, __, ___) =>  InitialPage(controller: InitialPageController()),
         );
       case "/:id":
         return PageRouteBuilder(
