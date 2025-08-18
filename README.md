@@ -250,6 +250,166 @@ RoutesProvider().navigateTo('/position');
     ```
    
 ---
+## 🧩 Uso do Novo Menu e AppBar
+
+No nosso projeto, o **Menu lateral** é considerado (quase) estático após ser carregado com um `getMenus()`, ou seja, ele **não se altera durante a navegação** do sistema. Por outro lado, o **AppBar** é **dinâmico** e **adaptável a cada módulo**, podendo ser personalizado de acordo com a página ativa, controlado via `RoutesProvider()`.
+
+Para isso, é necessário que cada **módulo** siga algumas convenções e implementações específicas.
+
+> ⚠️ Importante: o `AppBarCustom` é sempre chamado dentro do **Widget do menu lateral fixo**.
+
+---
+
+### 🛠️ Requisitos para usar o AppBar dinâmico
+
+Para permitir a navegação e alteração do AppBar conforme o módulo, é necessário:
+
+1. O módulo **deve ser um `StatefulWidget`**
+2. O módulo **deve implementar `IHomeModule`** com `implements IHomeModule`
+3. O módulo **deve sobrescrever `appBarModel`** retornando um `AppBarModel` com o título e ações desejadas
+4. A **classe de estado** do módulo deve utilizar o **mixin `AppBarCustomMixin`**
+
+---
+
+### 📦 Exemplo de implementação
+
+```dart
+class PolicyModule extends StatefulWidget implements IHomeModule {
+  const PolicyModule({super.key});
+
+  @override
+  State<PolicyModule> createState() => _PolicyModuleState();
+
+  @override
+  AppBarModel get appBarModel => AppBarModel(
+        title: '123',
+        listActions: [
+          const Text("test2"),
+        ],
+      );
+}
+
+class _PolicyModuleState extends State<PolicyModule> with AppBarCustomMixin {
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => NavigationPolicyController()),
+      ],
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Policy module opened :)"),
+            Consumer<NavigationPolicyController>(
+              builder: (context, navigation, child) {
+                return navigation.currentWidget;
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+---
+---
+
+## 🎨 Nova Estilização de Componentes, Texto e Cores
+
+Neste projeto, adotamos uma nova abordagem para aplicar **cores**, **estilos de texto** e **componentes visuais** com o objetivo de garantir consistência, produtividade e fácil manutenção.
+
+Os recursos de estilo estão organizados em `/core/style`, onde estão definidos: cores, tipografia, `ThemeData`, entre outros. Desde o início, o `ThemeData` é configurado para os temas claro e escuro, o que já facilita a criação de componentes reutilizáveis.
+
+Além disso, o próprio `ThemeData` já é customizado com temas para componentes nativos como:
+
+- `checkboxTheme`
+- `switchTheme`
+- `tabBarTheme`
+- `tooltipTheme`
+- Entre outros existentes
+
+Essas configurações ajudam a evitar repetições e garantem uniformidade no design.
+
+Para aplicação de cores, utilizamos `Theme.of(context).colorScheme`. No entanto, como nomes como `surfaceVariant` não são intuitivos, foi criada uma documentação inline nas declarações das cores. Por exemplo:
+
+```dart
+/// Primary -> #49A8DB (AppColors.primary)
+Color get primaryColor => _colorScheme.primary;
+
+/// OnPrimary -> #FFFFFF (AppColors.white)
+Color get onPrimaryColor => _colorScheme.onPrimary;
+
+/// PrimaryContainer -> #A3D3EE (AppColors.primaryLight)
+Color get primaryLight => _colorScheme.primaryContainer;
+
+/// OnPrimaryContainer -> #36799D (AppColors.primaryDark)
+Color get primaryDark => _colorScheme.onPrimaryContainer;
+```
+
+- Além disso, foi feito o `extensions` que facilite a chamada de cores e estilos de texto
+
+```dart
+extension BuildContextExtensions on BuildContext {
+  AppTextStyles get styles => AppTextStyles(this); // chamar context.styles.primaryBoldText
+
+  ThemeColor get colors => ThemeColor(this); // context.colors.inversePrimary
+}
+```
+**Sendo o texto aplicado assim:**
+
+```dart
+Text("Go to detail page", style: context.styles.primaryBoldText),
+```
+
+```dart
+child: Text(
+  "Go to Detail Page in Home Module",
+  style: context.styles.lightText,
+),
+```
+```dart
+Text(
+  "This is example using new Styles: ",
+  style: context.styles.primaryBoldText.copyWith(fontSize: 20),
+),
+```
+
+**E a Cor aplicada assim:**
+
+```dart
+Container(
+  color: context.colors.inversePrimary, //Cor aqui
+  width: 150,
+  height: 150,
+  child: Center(
+      child: Text(
+    "Container Inverse Primary",
+    style: context.styles.blackText,
+    textAlign: TextAlign.center,
+  )),
+),
+```
+
+```dart
+decoration: BoxDecoration(
+  color: context.colors.surfaceColor,  //Cor aqui
+  boxShadow: [
+    BoxShadow(
+      offset: const Offset(4, 0),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Colors.black.withOpacity(0.06),
+    ),
+  ],
+),
+```
+
+---
+
+
 ## 🛰️ Nova função `request()` e tratamento de erros
 
 Em nossa arquitetura, foi introduzida a função `request()` para centralizar chamadas HTTP e o tratamento de falhas. Essa abordagem facilita a manutenção, melhora a legibilidade e padroniza o fluxo de erros na aplicação.
