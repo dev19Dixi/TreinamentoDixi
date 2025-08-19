@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 
+import 'widgets/button_with_controller_widget.dart';
+
 class InitialPageController extends ChangeNotifier {
+
+   InitialPageController() {
+    btnController.addListener(notifyListeners);
+  }
+  final BtnController btnController = BtnController();
+
   bool _hasChanged = false;
 
   bool get hasChanged => _hasChanged;

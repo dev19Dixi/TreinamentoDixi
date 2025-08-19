@@ -43,5 +43,15 @@ void main() {
 
       expect(listenerCalled, false);
     });
+
+    test('btnController should start with a text and changes when tapped', () {
+      final btnController = InitialPageController().btnController;
+
+      expect(btnController.text, 'Primeiro texto');
+
+      btnController.text = 'Texto alterado';
+
+      expect(btnController.text, 'Texto alterado');
+    });
   });
 }

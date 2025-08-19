@@ -4,6 +4,7 @@ import 'package:treinamento_mvvm/modules/position/controllers/navigation_control
 
 import 'pages/initial_page/initial_page_controller.dart';
 import 'pages/initial_page/widgets/button_widget.dart';
+import 'pages/initial_page/widgets/button_with_controller_widget.dart';
 
 class PositionModule extends StatelessWidget {
   const PositionModule({super.key});
@@ -20,11 +21,13 @@ class PositionModule extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("Position module opened :)"),
-            ButtonWidget()
+            Text("Neste modulo Terá testes Unit e Teste de Widget nos Widgets abaixo"),
+            
+            ButtonWidget(),
+            ButtonWithControllerWidget(),
           ],
         ),
       ),
     );
   }
 }
-
