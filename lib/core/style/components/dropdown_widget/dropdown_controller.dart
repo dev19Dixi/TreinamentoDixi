@@ -17,8 +17,8 @@ class DropdownController<T> extends ChangeNotifier {
     this.hintText,
     this.height = 30,
     this.maxLines,
-  }) : assert(assertValidFilter<T>(isFilerLocal)),
-       assert(assertFormatter<T>(formatter));
+  })  : assert(assertValidFilter<T>(isFilerLocal)),
+        assert(assertFormatter<T>(formatter));
 
   // --- Functions ---
   /// Function that returns the initial data for the dropdown.
@@ -85,9 +85,9 @@ class DropdownController<T> extends ChangeNotifier {
   final String Function(T value)? formatter;
 
   /// ❌ Function Not implemented Yet
-  final Future<List<T>> Function()? fetchNewPage;
+  final Future<List<T>> Function(int page)? fetchNewPage;
 
-   // ---------------------------
+  // ---------------------------
   // Design
   // ---------------------------
 
@@ -131,7 +131,7 @@ class DropdownController<T> extends ChangeNotifier {
   /// ```dart
   /// value: 'Teste1'
   /// ```
-  /// 
+  ///
   /// By this way, it will Start the DropDown with "Teste 1"
   final T? value;
   final bool isLoading;
@@ -141,6 +141,10 @@ class DropdownController<T> extends ChangeNotifier {
   bool _isLoading = false;
   T? _selected;
   bool _hasMore = true;
+
+  int page = 0;
+  bool hasFinishPagination = false;
+  bool isPaginating = false;
 
   List<T> get items => _itemsFilter.isNotEmpty || _textFilter.isNotEmpty ? _itemsFilter : _items;
   bool get isOpen => _isOpen;
@@ -163,14 +167,30 @@ class DropdownController<T> extends ChangeNotifier {
     _setLoading(false);
   }
 
+  /// Loads the next page of items.
+  ///
+  /// - Uses [page] to track pagination.
+  /// - Prevents multiple requests with [isPaginating].
+  /// - Marks [hasFinishPagination] when no more data is returned.
   Future<void> loadMore() async {
-    if (fetchNewPage != null && _hasMore && !_isLoading) {
-      _setLoading(true);
-      final data = await fetchNewPage!();
+    // Guard conditions
+    if (fetchNewPage == null) return;
+    if (hasFinishPagination || isPaginating) return;
+
+    isPaginating = true;
+    _setLoading(true);
+
+    final data = await fetchNewPage!(page);
+
+    if (data.isEmpty) {
+      hasFinishPagination = true;
+    } else {
       _items.addAll(data);
-      if (data.isEmpty) _hasMore = false;
-      _setLoading(false);
+      page++;
     }
+
+    isPaginating = false;
+    _setLoading(false);
   }
 
   void search(String text) {
@@ -197,7 +217,7 @@ class DropdownController<T> extends ChangeNotifier {
   getMaxHeight() {
     bool isUsingFilter = fetchFilter != null || isFilerLocal;
     double adicionalSpace = isUsingFilter ? heightTextField : 0;
-    return (40 * (maxLines ?? lines) + adicionalSpace);
+    return (40 * (maxLines ?? lines) + adicionalSpace) + 15;
   }
 
   String formatValue(T? value) {

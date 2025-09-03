@@ -20,9 +20,8 @@ class DropdownWidget<T> extends StatefulWidget {
   State<DropdownWidget<T>> createState() => DropdownStateWidget<T>();
 }
 
-class DropdownStateWidget<T> extends State<DropdownWidget<T>>
-    with TickerProviderStateMixin, HoverableMixin, DropdownAnimationMixin {
-  final ScrollController _scrollController = ScrollController();
+class DropdownStateWidget<T> extends State<DropdownWidget<T>> with TickerProviderStateMixin, HoverableMixin, DropdownAnimationMixin {
+  final ScrollController scrollController = ScrollController();
   late final DropdownController<T> controller;
 
   OverlayEntry? _overlayEntry;
@@ -33,7 +32,7 @@ class DropdownStateWidget<T> extends State<DropdownWidget<T>>
     super.initState();
     controller = widget.controller;
     controller.addListener(_onControllerUpdated);
-    _scrollController.addListener(_handleScroll);
+    scrollController.addListener(_handleScroll);
 
     controller.loadInitial(controller.value);
     initDropdownAnimation();
@@ -41,7 +40,7 @@ class DropdownStateWidget<T> extends State<DropdownWidget<T>>
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    scrollController.dispose();
     controller.disposeController();
     controller.removeListener(_onControllerUpdated);
     disposeDropdownAnimation();
@@ -70,7 +69,7 @@ class DropdownStateWidget<T> extends State<DropdownWidget<T>>
   }
 
   void _handleScroll() {
-    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 100) {
+    if (scrollController.position.pixels >= scrollController.position.maxScrollExtent) {
       if (controller.fetchNewPage != null && controller.hasMore && !controller.isLoading) {
         controller.loadMore();
       }
@@ -109,9 +108,7 @@ class DropdownStateWidget<T> extends State<DropdownWidget<T>>
                     children: [
                       if (controller.selected != null)
                         Text(
-                          controller.formatter != null
-                              ? controller.formatValue(controller.selected)
-                              : controller.selected!.toString(),
+                          controller.formatter != null ? controller.formatValue(controller.selected) : controller.selected!.toString(),
                           style: Style.blackText.copyWith(fontSize: 13),
                         )
                       else if (controller.isLoading)
@@ -153,12 +150,13 @@ class DropdownStateWidget<T> extends State<DropdownWidget<T>>
           showWhenUnlinked: false,
           child: Material(
             elevation: 4,
-            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(4), bottomRight: Radius.circular(4)),
+            color: ColorsApp.white,
+            borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(4), bottomRight: Radius.circular(4)),
             child: SizeTransition(
               sizeFactor: animation,
               axisAlignment: 1.0,
               child: ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: controller.getMaxHeight()),
+                constraints: BoxConstraints(maxHeight: controller.getMaxHeight() + 15),
                 child: Column(
                   children: [
                     if (controller.fetchFilter != null || controller.isFilerLocal) TextFieldSeachWidget(controller: controller),
@@ -166,13 +164,29 @@ class DropdownStateWidget<T> extends State<DropdownWidget<T>>
                       listenable: controller,
                       builder: (context, child) {
                         return Expanded(
-                          child: ListItemsDropdownWidget<T>(
-                            controller: controller,
-                            onTapItem: (item) {
-                              controller.setSelected(item);
-                              controller.onSelected(item);
-                              _removeOverlay();
-                            },
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: ListItemsDropdownWidget<T>(
+                                  scrollController: scrollController,
+                                  controller: controller,
+                                  onTapItem: (item) {
+                                    controller.setSelected(item);
+                                    controller.onSelected(item);
+                                    _removeOverlay();
+                                  },
+                                ),
+                              ),
+                              if (controller.isPaginating)
+                                Container(
+                                    color: ColorsApp.white,
+                                    height: 15,
+                                    width: 15,
+                                    child: const Center(
+                                        child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ))),
+                            ],
                           ),
                         );
                       },
@@ -189,5 +203,4 @@ class DropdownStateWidget<T> extends State<DropdownWidget<T>>
     Overlay.of(context).insert(_overlayEntry!);
     playOpenAnimation();
   }
-  
 }

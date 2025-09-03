@@ -6,28 +6,27 @@ import '../hoverable_mixin.dart';
 import '../text_styles.dart';
 
 class ListItemsDropdownWidget<T> extends StatefulWidget {
-  const ListItemsDropdownWidget({super.key, required this.onTapItem, required this.controller});
+  const ListItemsDropdownWidget({super.key, required this.onTapItem, required this.controller, required this.scrollController});
 
   final Function(T item) onTapItem;
   final DropdownController<T> controller;
+  final ScrollController scrollController;
 
   @override
   State<ListItemsDropdownWidget<T>> createState() => _ListItemsDropdownWidgetState<T>();
 }
 
 class _ListItemsDropdownWidgetState<T> extends State<ListItemsDropdownWidget<T>> {
-  final ScrollController scrollController = ScrollController();
-
   @override
   Widget build(BuildContext context) {
     var controller = widget.controller;
     bool isUsingFormatter = controller.formatter != null;
-    
+
     return Scrollbar(
       thumbVisibility: true,
-      controller: scrollController,
+      controller: widget.scrollController,
       child: ListView.builder(
-        controller: scrollController,
+        controller: widget.scrollController,
         itemCount: controller.items.length,
         itemBuilder: (_, index) {
           final item = controller.items[index];

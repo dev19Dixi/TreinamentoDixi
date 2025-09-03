@@ -21,16 +21,22 @@ class InitialPage extends StatelessWidget {
           children: [
             const SizedBox(height: 15),
             SizedBox(
-              // width: 300,
+              width: 300,
               child: DropdownWidget(
                 controller: DropdownController<String>(
                   fetchInitialData: () async => listData,
                   value: data,
+                  fetchNewPage: (page) async {
+                    await Future.delayed(const Duration(seconds: 1));
+                    return [
+                      "Teste Add",
+                    ];
+                  },
                   onSelected: (value) {
                     print(value);
                   },
                   isFilerLocal: true,
-                  formatter: (value) => "Formatador: $value",
+                  // formatter: (value) => "Formatador: $value",
                 ),
               ),
             ),
