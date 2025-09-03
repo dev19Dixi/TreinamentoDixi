@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:treinamento_mvvm/core/style/build_context.dart';
 
+import '../../../../core/style/components/dropdown_widget/dropdown_controller.dart';
+import '../../../../core/style/components/dropdown_widget/dropdown_widget.dart';
 import 'widgets/home_information_widget.dart';
 import 'widgets/list_buttons_widget.dart';
 import 'widgets/list_text_widget.dart';
@@ -11,19 +13,36 @@ class InitialPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    var listData = ["Teste 1", "Teste 2", "Teste 11", "A", 'B', 'B', 'C'];
+    var data = "Teste 11";
+    return Center(
       child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 15),
-            HomeInformationWidget(),
-            ListTextWidget(),
-            SizedBox(height: 8),
-            ListButtonsIwdget(),
-            SizedBox(height: 8),
-            RowListContainersWidget(),
-            RowListButtonswidgets(),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
+            SizedBox(
+              // width: 300,
+              child: DropdownWidget(
+                controller: DropdownController<String>(
+                  fetchInitialData: () async => listData,
+                  value: data,
+                  onSelected: (value) {
+                    print(value);
+                  },
+                  isFilerLocal: true,
+                  formatter: (value) => "Formatador: $value",
+                ),
+              ),
+            ),
+            const SizedBox(height: 15),
+            const HomeInformationWidget(),
+            const ListTextWidget(),
+            const SizedBox(height: 8),
+            const ListButtonsIwdget(),
+            const SizedBox(height: 8),
+            const RowListContainersWidget(),
+            const RowListButtonswidgets(),
+            const SizedBox(height: 15),
           ],
         ),
       ),
