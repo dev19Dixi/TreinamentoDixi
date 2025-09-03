@@ -47,7 +47,7 @@ void main() {
     String test = 'test';
     await controller.loadInitial(null);
     controller.search(test);
-    await Future.delayed(Duration(milliseconds: 600)); // wait debounce
+    await Future.delayed(const Duration(milliseconds: 600)); // wait debounce
     expect(controller.items, ['Filtered $test']);
   });
 
@@ -61,19 +61,19 @@ void main() {
     );
     await controller.loadInitial(null);
     controller.search('test');
-    await Future.delayed(Duration(milliseconds: 600)); // wait debounce
+    await Future.delayed(const Duration(milliseconds: 600)); // wait debounce
     expect(controller.items, ['Teste 1', 'Teste 2', 'Teste 11']);
 
     controller.search('1');
-    await Future.delayed(Duration(milliseconds: 600)); // wait debounce
+    await Future.delayed(const Duration(milliseconds: 600)); // wait debounce
     expect(controller.items, ['Teste 1', 'Teste 11']);
 
     controller.search('2');
-    await Future.delayed(Duration(milliseconds: 600)); // wait debounce
+    await Future.delayed(const Duration(milliseconds: 600)); // wait debounce
     expect(controller.items, ['Teste 2']);
 
     controller.search('Corinthians');
-    await Future.delayed(Duration(milliseconds: 600)); // wait debounce
+    await Future.delayed(const Duration(milliseconds: 600)); // wait debounce
     expect(controller.items, []);
   });
 
@@ -102,18 +102,106 @@ void main() {
   });
 
   test('formatter should format non-string types correctly', () async {
-  final formatterController = DropdownController<int>(
-    fetchInitialData: () async => [10, 20],
-    onSelected: (_) {},
-    formatter: (value) => 'Age $value',
-  );
+    final formatterController = DropdownController<int>(
+      fetchInitialData: () async => [10, 20],
+      onSelected: (_) {},
+      formatter: (value) => 'Age $value',
+    );
 
-  await formatterController.loadInitial(null);
+    await formatterController.loadInitial(null);
 
-  final formatted = formatterController.formatter?.call(10);
-  expect(formatted, 'Age 10');
-});
+    final formatted = formatterController.formatter?.call(10);
+    expect(formatted, 'Age 10');
+  });
 
+  group("DropdownController - Pagination", () {
+    late DropdownController controllerPag;
+    late int paginationCallCount = 0;
+
+    setUp(() {
+      paginationCallCount = 0;
+      controllerPag = DropdownController<String>(
+        fetchInitialData: () async => ['A', 'B', 'C'],
+        onSelected: (_) {},
+        fetchFilter: (query) async => ['Filtered $query'],
+        fetchNewPage: (page) async {
+          await Future.delayed(const Duration(milliseconds: 100));
+          paginationCallCount++;
+          print("passsou com count: $paginationCallCount");
+          if (paginationCallCount == 1) {
+            return ['D', 'E'];
+          }
+          if (paginationCallCount == 2) {
+            return ['F'];
+          }
+          return []; // stop pagination
+        },
+      );
+    });
+
+    test('Should show isPaginating when requested', () async {
+      await controllerPag.loadInitial(null);
+      expect(controllerPag.isPaginating, false);
+
+      final future = controllerPag.loadMore();
+      expect(controllerPag.isPaginating, true); // immediately true during call
+
+      await future;
+      expect(controllerPag.isPaginating, false); // reset after call
+    });
+
+    test('Should NOT request data paginated when is already paginating', () async {
+      await controllerPag.loadInitial(null);
+
+      // Fire two loadMore calls quickly
+      controllerPag.loadMore();
+      controllerPag.loadMore();
+
+      // Wait for them to complete
+      await Future.delayed(const Duration(seconds: 1));
+
+      // Pagination function should only be called once
+      expect(paginationCallCount, 1);
+    });
+
+    test('Should stop Requesting when there is no data', () async {
+      await controllerPag.loadInitial(null);
+
+      await controllerPag.loadMore(); // -> ['D', 'E']
+      await controllerPag.loadMore(); // -> ['F']
+      await controllerPag.loadMore(); // -> []
+
+      expect(controllerPag.hasFinishPagination, true);
+
+      // Try again -> should not increment calls anymore
+      await controllerPag.loadMore();
+      expect(paginationCallCount, 3);
+    });
+
+    test('Should remove items when has pagination and start to filter data', () async {
+      await controllerPag.loadInitial(null);
+      await controllerPag.loadMore(); // add ['D', 'E']
+      expect(controllerPag.items, ['A', 'B', 'C', 'D', 'E']);
+
+      controllerPag.search('test');
+      await Future.delayed(const Duration(milliseconds: 600)); // wait debounce
+
+      expect(controllerPag.items, ['Filtered test']); // pagination cleared
+    });
+
+    test('Should reload initial data when filter text is cleared', () async {
+      await controllerPag.loadInitial(null);
+      controllerPag.search('query');
+      await Future.delayed(const Duration(milliseconds: 600));
+      expect(controllerPag.items, ['Filtered query']);
+
+      // simulate clearing the filter
+      controllerPag.search('');
+      await Future.delayed(const Duration(milliseconds: 600));
+
+      expect(controllerPag.items, ['A', 'B', 'C']); // back to initial
+    });
+  });
 
   test('Should show error flutter in asserts that cannot use isFilerLocal', () {
     expect(
@@ -159,7 +247,4 @@ void main() {
       returnsNormally,
     );
   });
-
- 
-
 }
